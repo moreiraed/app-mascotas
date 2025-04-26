@@ -1,0 +1,56 @@
+# Documentación: https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# Dependencias
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Archivos de credenciales o claves sensibles
+*.jks
+*.p8
+*.p12
+*.key
+*.pem
+*.mobileprovision
+
+# Metro bundler
+.metro-cache/
+.metro-health-check*
+
+# Archivos de debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+# Entornos y variables locales
+.env
+.env.*.local
+.env.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Archivos de conflicto
+*.orig.*
+
+# Carpetas de ejemplo o prueba
+app-example/
+
+# Android/Gradle específicos
+android/.gradle/
+android/local.properties
+
+# iOS específicos
+ios/Pods/
+ios/build/
+
+# VS Code (si no se va a usar en equipo)
+.vscode/
