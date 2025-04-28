@@ -1,15 +1,24 @@
-import { View, Text, Image} from 'react-native'
-import React from 'react'
+import { View, Text, Image, TouchableOpacity, TextStyle, ViewStyle } from 'react-native';
+import styles from '../styles/indexStyles'; 
+import { useRouter } from 'expo-router';
 
-const icon = require('../assets/images/cat-dog-logo.png');
+export default function HomeScreen() {
+  const router = useRouter();
 
-const Main = () => {
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Image source= {icon} style={{width: 100, height: 100, alignSelf: 'center'}} />
-      <Text>Encuentra tu mascota</Text>
-    </View>
-  )
-}
+    <View style={styles.container}>
+      <Text style={styles.title}>Bienvenido a Mi App</Text>
 
-export default Main
+      <Image
+        source={require('../assets/images/inicio.png')}
+        style={styles.image}
+        resizeMode="contain"
+      />
+
+      {/* Botón personalizado */}
+      <TouchableOpacity style={styles.button} onPress={() => router.push('/siguiente')}>
+        <Text style={styles.buttonText}>Continuar</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
