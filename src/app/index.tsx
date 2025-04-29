@@ -16,7 +16,7 @@ export default function HomeScreen() {
       />
 
       {/* Botón personalizado */}
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/siguiente')}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push('/permisos')}>
         <Text style={styles.buttonText}>Continuar</Text>
       </TouchableOpacity>
     </View>
