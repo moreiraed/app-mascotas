@@ -4,7 +4,7 @@
     "slug": "app-mascotas",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./src/assets/images/cat-dog-logo-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/cat-dog-logo-adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
@@ -29,7 +29,7 @@
         {
           "expo": {
             "splash": {
-              "image": "./assets/cat-dog-logo.png",
+              "image": "./assets/cat-dog-logo-splash-icon.png",
               "resizeMode": "contain",
               "backgroundColor": "#ffffff"
             }
