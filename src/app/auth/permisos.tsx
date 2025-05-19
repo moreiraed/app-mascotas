@@ -1,26 +1,43 @@
-import { useEffect, useState } from 'react';
-import { View, Text, Image, Button, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import * as Location from 'expo-location';
-import { Camera } from 'expo-camera';
-import styles from '../../styles/permisosStyles';
+import * as MediaLibrary from 'expo-media-library';
+import  {styles}  from '../../styles/permisosStyles';
 
 export default function PermisosScreen() {
-  const [hasLocationPermission, setHasLocationPermission] = useState<boolean | null>(null);
-  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+  const router = useRouter();
+  const [isRequesting, setIsRequesting] = useState(false);
 
-  const pedirPermisos = async () => {
-    // Solicita permiso de ubicación
-    const { status: locationStatus } = await Location.requestForegroundPermissionsAsync();
-    setHasLocationPermission(locationStatus === 'granted');
+  const handlePermisos = async () => {
+    setIsRequesting(true);
 
-    // Solicita permiso de cámara
-    const { status: cameraStatus } = await Camera.requestCameraPermissionsAsync();
-    setHasCameraPermission(cameraStatus === 'granted');
+    try {
+      // Solicitar permiso de ubicación
+      const { status: locationStatus } = await Location.requestForegroundPermissionsAsync();
 
-    if (locationStatus !== 'granted' || cameraStatus !== 'granted') {
-      Alert.alert('Permisos requeridos', 'Necesitamos acceso a la ubicación y cámara para continuar.');
-    } else {
-      Alert.alert('¡Listo!', 'Todos los permisos fueron concedidos');
+      if (locationStatus !== 'granted') {
+        Alert.alert('Permiso denegado', 'Se requiere acceso a la ubicación.');
+        setIsRequesting(false);
+        return;
+      }
+
+      // Solicitar permiso para acceder a la galería
+      const { status: galleryStatus } = await MediaLibrary.requestPermissionsAsync();
+
+      if (galleryStatus !== 'granted') {
+        Alert.alert('Permiso denegado', 'Se requiere acceso a la galería.');
+        setIsRequesting(false);
+        return;
+      }
+
+      // Si ambos están concedidos, navegar al tab principal
+      router.replace('/(tabs)/home');
+    } catch (error) {
+      console.error('Error solicitando permisos:', error);
+      Alert.alert('Error', 'Ocurrió un problema al solicitar los permisos.');
+    } finally {
+      setIsRequesting(false);
     }
   };
 
@@ -31,12 +48,17 @@ export default function PermisosScreen() {
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.text}>
-        Para continuar, necesitamos acceso a tu ubicación y cámara
-      </Text>
-      <View style={styles.buttonContainer}>
-        <Button title="Dar permisos" onPress={pedirPermisos} />
-      </View>
+      <Text style={styles.text}>Necesitamos acceder a tu ubicación y galería</Text>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handlePermisos}
+        disabled={isRequesting}
+      >
+        <Text style={styles.buttonText}>
+          {isRequesting ? 'Solicitando permisos...' : 'Dar permisos'}
+        </Text>
+      </TouchableOpacity>
     </View>
- );
+  );
 }
