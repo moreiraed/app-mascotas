@@ -2,9 +2,17 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import styles from '../styles/indexStyles'
+import MainButtonLong from '../components/MainButtonLong';
+import SecondaryButtonLong from '../components/SecondaryButton';
 
 export default function AuthScreen() {
   const router = useRouter();
+  const register = () => {
+    router.push('/(auth)/register');
+  }
+  const login = () => {
+    router.push('/(auth)/login');
+  }
 
   return (
     <View style={styles.container}>
@@ -16,13 +24,8 @@ export default function AuthScreen() {
         resizeMode="contain"
       />
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => router.push('/auth/login')}>
-        <Text style={styles.loginText}>Ingresar</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.registerButton} onPress={() => router.push('/auth/register')}>
-        <Text style={styles.registerText}>Registrarse</Text>
-      </TouchableOpacity>
+      <MainButtonLong title='Ingresar' onPress={login}></MainButtonLong>
+      <SecondaryButtonLong title='Registrarse' onPress={register}></SecondaryButtonLong>
     </View>
   );
 }
