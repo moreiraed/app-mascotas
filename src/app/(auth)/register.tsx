@@ -7,18 +7,33 @@ import {
   TouchableOpacity,
   Pressable,
 } from 'react-native';
-import { useRouter } from 'expo-router'; 
+import { Stack, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../../styles/loginStyles'
+import styles from '../../styles/registerStyles'
+import MainButtonLong from '@/src/components/MainButtonLong';
+import SecondaryButtonLong from '@/src/components/SecondaryButton';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const registrarse = () => {
+    router.push('/(auth)/welcome');
+  }
+  const login = () => {
+    router.push('/(auth)/login');
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>¡Haz vuelto!</Text>
-      <Text style={styles.subtitle}>Ingresa tus datos para iniciar sesión</Text>
+      <Text style={styles.title}>¡Bienvenido!</Text>
+      <Text style={styles.subtitle}>Crea tu cuenta para comenzar</Text>
+
+      <Text style={styles.label}>Nombre</Text>
+      <TextInput
+        placeholder="Nombre de Usuario"
+        placeholderTextColor="#888"
+        style={styles.input}
+      />
 
       <Text style={styles.label}>Correo</Text>
       <TextInput
@@ -32,7 +47,7 @@ export default function LoginScreen() {
       <Text style={styles.label}>Contraseña</Text>
       <View style={styles.passwordContainer}>
         <TextInput
-          placeholder="Contraseña"
+          placeholder="Crea una contraseña"
           placeholderTextColor="#888"
           style={styles.input}
           secureTextEntry={!showPassword}
@@ -49,24 +64,11 @@ export default function LoginScreen() {
         </Pressable>
       </View>
 
-      <TouchableOpacity style={styles.forgotPassword}>
-        <Text style={styles.forgotText}>¿Olvidó su contraseña?</Text>
-      </TouchableOpacity>
+      <MainButtonLong title='Registrarse' onPress={registrarse}></MainButtonLong>
 
-      <TouchableOpacity 
-        style={styles.loginButton} 
-        onPress={() => router.push('/auth/welcome')} 
-      >
-        <Text style={styles.loginText}>Ingresar</Text>
-      </TouchableOpacity>
+      <Text style={styles.loginPrompt}>¿Ya tienes cuenta?</Text>
 
-      <Text style={styles.registerPrompt}>¿No tienes cuenta?</Text>
-      <TouchableOpacity
-        style={styles.registerButton}
-        onPress={() => router.push('/auth/register')}
-      >
-        <Text style={styles.registerText}>Registrarse</Text>
-      </TouchableOpacity>
+      <SecondaryButtonLong title='Ingresar' onPress={login}></SecondaryButtonLong>
     </View>
   );
 }

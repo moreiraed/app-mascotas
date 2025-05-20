@@ -4,6 +4,7 @@ import { useState } from 'react';
 import * as Location from 'expo-location';
 import * as MediaLibrary from 'expo-media-library';
 import  {styles}  from '../../styles/permisosStyles';
+import MainButtonShort from '@/src/components/MainButtonShort';
 
 export default function PermisosScreen() {
   const router = useRouter();
