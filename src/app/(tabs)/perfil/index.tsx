@@ -5,6 +5,7 @@ import styles from '../../../styles/perfilStyles';
 
 const { width } = Dimensions.get('window');
 
+
 const mockImages = [
   require('../../../assets/images/inicio.png'),
   require('../../../assets/images/permisos.png'),
