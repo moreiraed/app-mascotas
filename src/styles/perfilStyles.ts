@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions} from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -12,10 +14,10 @@ export default StyleSheet.create({
     marginBottom: 24,
   },
   avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    borderWidth: 3,
+    width: 100,
+    height: 100,
+    borderRadius: 400,
+    borderWidth: 5,
     borderColor: '#FF9F00',
     marginRight: 16,
   },
@@ -25,29 +27,24 @@ export default StyleSheet.create({
     color: '#333',
   },
   galleryContainer: {
-    gap: 4,
+    gap: 1,
   },
   galleryImage: {
-    width: 100,
-    height: 100,
-    margin: 4,
-    borderWidth: 2,
-    borderColor: '#FF9F00',
+    width: 180,
+    height: 180,
+    margin: 2,
+    borderWidth: 2.5,
+    borderColor: '#000',
     borderRadius: 8,
-  },
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingHorizontal: 16,
-    paddingTop: 10,
-    marginBottom: 10,
   },
   spacer: {
     flex: 1,
   },
     gallery: {
-    flex: 100,
-    marginTop: 50,
+    flex: 10,
+    marginTop: 30,
+    width: width * 0.95, 
+    marginBottom: -15
   },
 sectionTitle: {
   fontSize: 20,
@@ -55,5 +52,6 @@ sectionTitle: {
   color: '#333',
   marginBottom: 12,
   marginLeft: 4,
-}
+},
+
 });
