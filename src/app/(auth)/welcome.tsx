@@ -1,9 +1,13 @@
 import { View, Text, Image, TouchableOpacity, TextStyle, ViewStyle } from 'react-native';
 import styles from '../../styles/welcomeStyles'; 
 import { useRouter } from 'expo-router';
+import MainButtonShort from '@/src/components/MainButtonShort';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const continuar = () => {
+    router.push('/(auth)/permisos');
+  }
 
   return (
     <View style={styles.container}>
@@ -15,10 +19,7 @@ export default function HomeScreen() {
         resizeMode="contain"
       />
 
-      {/* Botón personalizado */}
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/auth/permisos')}>
-        <Text style={styles.buttonText}>Continuar</Text>
-      </TouchableOpacity>
+      <MainButtonShort title='Continuar' onPress={continuar}></MainButtonShort>
     </View>
   );
 }

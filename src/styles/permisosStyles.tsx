@@ -1,28 +1,33 @@
 import { StyleSheet } from 'react-native';
 
-const permisosStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
     padding: 20,
   },
   image: {
-    width: 220,
-    height: 220,
-    marginBottom: 25,
+    width: 180,
+    height: 180,
+    marginBottom: 20,
   },
   text: {
     fontSize: 18,
-    color: '#333333',
+    color: '#333',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
   },
-  buttonContainer: {
-    width: '60%',
-    marginTop: 10,
+  button: {
+    backgroundColor: '#FF9F00',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
-
-export default permisosStyles;
