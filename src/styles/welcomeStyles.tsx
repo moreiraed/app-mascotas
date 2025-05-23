@@ -33,6 +33,10 @@ const welcomeStyles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  text: {
+    textAlign: "center",
+    paddingHorizontal: 10,
+  },
 });
 
 export default welcomeStyles;

@@ -1,33 +1,68 @@
-import { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, Image } from 'react-native';
-import styles from '../styles/splashStyles';
-import { useRouter } from 'expo-router'; // No necesitas Redirect aquí
+import React, { useEffect, useState } from 'react';
+import { View, Text, SafeAreaView, Image, ActivityIndicator } from 'react-native';
+import { router } from 'expo-router';
+import {
+  useFonts,
+  Nunito_300Light,
+  Nunito_400Regular,
+  Nunito_600SemiBold,
+  Nunito_700Bold,
+} from '@expo-google-fonts/nunito';
 
-export default function SplashScreen() {
-  const router = useRouter();
-  const [isLogin, setIsLogin] = useState(false); // Mantienes el estado si lo necesitas para otras cosas
+import imagePath from '../constants/imagePath';
+import loaderStyles from '@/src/styles/loaderStyles'
+import fontStyles from '../styles/fontStyles';
+import colors from '../constants/colors';
 
+const Index = () => {
+  // Se cargan las fuentes
+  const [fontsLoaded] = useFonts({
+    Nunito_300Light,
+    Nunito_400Regular,
+    Nunito_600SemiBold,
+    Nunito_700Bold,
+  });
+
+  // Setear manualmente si esta logeado o no
+  const [isLogin, setIsLogin] = useState(false);
+  
+  const [minimumTimePassed, setMinimumTimePassed] = useState(false);
+
+  // Tiempo de espera minimo para arrancar la aplicación
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (isLogin) {
-        router.replace('/(tabs)'); // Redirige a (tabs) si isLogin es true
-      } else {
-        router.replace('/(auth)'); // Redirige a (auth) si isLogin es false
-      }
-    }, 3000);
+      setMinimumTimePassed(true);
+    }, 1500);
 
     return () => clearTimeout(timer);
-  }, [isLogin]); // Agrega isLogin como dependencia para que el efecto se re-ejecute si cambia
+  }, []);
 
+  // Si las fuentes cargaron y el tiempo minimo ha pasado, redirigir
+  useEffect(() => {
+    if (fontsLoaded && minimumTimePassed) {
+      if (isLogin) router.replace('/(tabs)'); // Redirige a (tabs) si isLogin es true
+      else router.replace('/(auth)'); // Redirige a (auth) si isLogin es false
+    }
+  }, [fontsLoaded, minimumTimePassed]);
+
+  // Pantalla de espera
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bienvenido a Mi App</Text>
-      <Image
-        source={require('../assets/images/cat-dog-logo.png')}
-        style={styles.image}
-        resizeMode="contain"
-      />
-      <ActivityIndicator size="large" color="#6200ee" style={styles.loader} />
-    </View>
+    <SafeAreaView style={loaderStyles.container}>
+      <View style={loaderStyles.header}></View>
+      <View style={loaderStyles.body}>
+        <Image
+          source={imagePath.icon}
+          resizeMode="contain"
+          style={loaderStyles.icon}
+        />
+        <Text style={fontStyles.titulo}>App Mascotas</Text>
+      </View>
+      <View style={loaderStyles.footer}>
+        <ActivityIndicator size="large" color={colors.primary}/>
+        <Text style={fontStyles.textLight}>Loading..</Text>
+      </View>
+    </SafeAreaView>
   );
-}
+};
+
+export default Index;
