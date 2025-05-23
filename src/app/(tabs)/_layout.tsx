@@ -1,32 +1,81 @@
-// src/app/_layout.tsx
+import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import colors from '@/src/constants/colors';
 
-
-export default function Layout() {
+export default function TabsLayout() {
   return (
-   
-   <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      /*  Opciones comunes a todas las pestañas  */
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.primary,   // color cuando la pestaña está activa
+        tabBarInactiveTintColor: '#8e8e93', // color cuando está inactiva
+        tabBarStyle: {
+          backgroundColor: '#ffffff',       // color de fondo de la barra
+          borderTopColor: '#e5e5e5',        // línea superior suave
+        },
+      }}
+    >
+      {/* 1. Encontrar */}
       <Tabs.Screen
-        name="tabs/home"
+        name="encontrar"
         options={{
-          title: 'Inicio',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+          title: 'Encontrar',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? 'search' : 'search-outline'}
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
+
+      {/* 2. Mapa */}
       <Tabs.Screen
-        name="tabs/perfil"
+        name="mapa"
+        options={{
+          title: 'Mapa',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? 'map' : 'map-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      {/* 3. Foro */}
+      <Tabs.Screen
+        name="foro"
+        options={{
+          title: 'Foro',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? 'chatbubbles' : 'chatbubbles-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      {/* 4. Perfil */}
+      <Tabs.Screen
+        name="perfil"
         options={{
           title: 'Perfil',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? 'person' : 'person-outline'}
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
     </Tabs>
-    
   );
-  
 }

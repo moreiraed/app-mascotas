@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const IndexApp = () => {
+const Encontrar = () => {
   return (
     <View>
-      <Text>IndexApp</Text>
+      <Text>Encontrar</Text>
     </View>
   )
 }
 
-export default IndexApp
+export default Encontrar

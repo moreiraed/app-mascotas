@@ -33,7 +33,7 @@ export default function PermisosScreen() {
       }
 
       // Si ambos están concedidos, navegar al tab principal
-      router.replace('/(tabs)/home');
+      router.replace('/(tabs)/encontrar');
     } catch (error) {
       console.error('Error solicitando permisos:', error);
       Alert.alert('Error', 'Ocurrió un problema al solicitar los permisos.');

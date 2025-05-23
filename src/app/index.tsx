@@ -40,7 +40,7 @@ const Index = () => {
   // Si las fuentes cargaron y el tiempo minimo ha pasado, redirigir
   useEffect(() => {
     if (fontsLoaded && minimumTimePassed) {
-      if (isLogin) router.replace('/(tabs)'); // Redirige a (tabs) si isLogin es true
+      if (isLogin) router.replace('/(tabs)/encontrar'); // Redirige a (tabs) si isLogin es true
       else router.replace('/(auth)'); // Redirige a (auth) si isLogin es false
     }
   }, [fontsLoaded, minimumTimePassed]);
