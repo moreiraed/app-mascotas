@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
   Pressable,
@@ -11,7 +10,8 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../../styles/loginStyles'
 import MainButtonLong from '@/src/components/MainButtonLong';
-import SecondaryButtonLong from '@/src/components/SecondaryButton';
+import MainFacebokButton from '@/src/components/MainFacebokButton';
+import MainGoogleButton from '@/src/components/MainGoogleButton';
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,7 +26,15 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>¡Haz vuelto!</Text>
-      <Text style={styles.subtitle}>Ingresa tus datos para iniciar sesión</Text>
+
+      <MainFacebokButton title='Continua con Facebook'></MainFacebokButton>
+      <MainGoogleButton title='Continua con Google'></MainGoogleButton>
+
+      <View style={styles.lineContainer}>
+        <View style={styles.line}></View>
+        <Text style={styles.orText}>O</Text>
+        <View style={styles.line}></View>
+      </View>
 
       <Text style={styles.label}>Correo</Text>
       <TextInput
@@ -63,9 +71,13 @@ export default function LoginScreen() {
 
       <MainButtonLong title='Ingresar' onPress={ingresar}></MainButtonLong>
 
-      <Text style={styles.registerPrompt}>¿No tienes cuenta?</Text>
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>¿Ya tienes cuenta?</Text>
+        <TouchableOpacity>
+          <Text style={styles.footerLink} onPress={registrarse}>Inicia sesión</Text>
+        </TouchableOpacity>
+      </View>
       
-      <SecondaryButtonLong title='Registrarse' onPress={registrarse}></SecondaryButtonLong>
     </View>
   );
 }
