@@ -1,57 +1,82 @@
-import { StyleSheet, Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
+const screenWidth = Dimensions.get('window').width;
+import { StyleSheet } from 'react-native';
 
-const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7EFE9',
-    padding: 16,
+    
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 16,
   },
   avatar: {
     width: 100,
     height: 100,
-    borderRadius: 400,
-    borderWidth: 5,
+    borderRadius: 40,
+    borderWidth: 3,
     borderColor: '#FF9F00',
     marginRight: 16,
+   
   },
   username: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
+    marginTop: 10,
+     padding: 10,
   },
-  galleryContainer: {
-    gap: 1,
+  tabBar: {
+    backgroundColor: '#F7EFE9',
+    marginBottom: 8,
+  },
+  indicator: {
+    backgroundColor: '#FF9F00',
+    height: 3,
+  },
+  tabLabel: {
+    fontWeight: 'bold',
+    textTransform: 'none',
+    color: 'gray',
+  
+  },
+  tabLabelFocused: {
+    color: '#FF9F00',
+  },
+  gallery: {
+    paddingVertical: 8,
   },
   galleryImage: {
-    width: 180,
-    height: 180,
-    margin: 2,
-    borderWidth: 2.5,
-    borderColor: '#000',
-    borderRadius: 8,
-  },
-  spacer: {
     flex: 1,
+    margin: 4,
+    height: 120,
+    borderRadius: 8,
+    borderWidth: 3,
+    borderColor: '#FFF',
   },
-    gallery: {
-    flex: 10,
-    marginTop: 30,
-    width: width * 0.95, 
-    marginBottom: -15
+  mascotasContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-sectionTitle: {
-  fontSize: 20,
-  fontWeight: 'bold',
-  color: '#333',
-  marginBottom: 12,
-  marginLeft: 4,
-},
-
+  mascotasTexto: {
+    fontSize: 16,
+    color: '#777',
+  },
+   cover: {
+    width: screenWidth,
+  height: 200,
+  resizeMode: 'cover',
+    
+  },
+  profileContainer: {
+    alignItems: 'center',
+    marginTop: -100, 
+    flex: 0.2,
+  },
+ 
 });
