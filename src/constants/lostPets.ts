@@ -1,0 +1,98 @@
+import imagePath from "./imagePath";
+
+// Lista de mascotas perdidas con sus detalles
+const lostPets = [
+  {
+    id: '1',
+    name: 'Roco',
+    type: 'Perro',
+    breed: 'Labrador',
+    location: 'Av. 25 de Mayo al 800, Resistencia',
+    date: '15/05/2025',
+    image: imagePath.dog01,
+  },
+  {
+    id: '2',
+    name: 'Misi',
+    type: 'Gato',
+    breed: 'Siamés',
+    location: 'Parque 2 de Febrero, Resistencia',
+    date: '10/05/2025',
+    image: imagePath.cat01,
+  },
+  {
+    id: '3',
+    name: 'Luci',
+    type: 'Gato',
+    breed: 'Gris atigrado',
+    location: 'Barrio Villa San Juan, Resistencia',
+    date: '09/05/2025',
+    image: imagePath.cat02,
+  },
+  {
+    id: '4',
+    name: 'Bruno',
+    type: 'Perro',
+    breed: 'Pitbull',
+    location: 'Av. Sarmiento y Av. Lavalle, Resistencia',
+    date: '07/05/2025',
+    image: imagePath.dog02,
+  },
+  {
+    id: '5',
+    name: 'Cleo',
+    type: 'Gata',
+    breed: 'Negra',
+    location: 'Zona Plaza 25 de Mayo, Resistencia',
+    date: '03/05/2025',
+    image: imagePath.cat03,
+  },
+  {
+    id: '6',
+    name: 'Firulais',
+    type: 'Perro',
+    breed: 'Cruza mediano',
+    location: 'Barrio España, Resistencia',
+    date: '02/05/2025',
+    image: imagePath.dog03,
+  },
+  {
+    id: '7',
+    name: 'Tom',
+    type: 'Gato',
+    breed: 'Naranja',
+    location: 'Calle Vedia al 500, Resistencia',
+    date: '30/04/2025',
+    image: imagePath.cat04,
+  },
+  {
+    id: '8',
+    name: 'Lola',
+    type: 'Perra',
+    breed: 'Beagle',
+    location: 'Av. Castelli y Av. Alvear, Resistencia',
+    date: '28/04/2025',
+    image: imagePath.dog04,
+  },
+  {
+    id: '9',
+    name: 'Nina',
+    type: 'Gata',
+    breed: 'Tricolor',
+    location: 'Barrio Santa Inés, Resistencia',
+    date: '27/04/2025',
+    image: imagePath.cat05,
+  },
+  {
+    id: '10',
+    name: 'Max',
+    type: 'Perro',
+    breed: 'Golden Retriever',
+    location: 'Plaza Belgrano, Fontana',
+    date: '25/04/2025',
+    image: imagePath.dog05,
+  },
+];
+
+
+  export default lostPets;

@@ -14,10 +14,28 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: '#ffffff',       // color de fondo de la barra
           borderTopColor: '#e5e5e5',        // línea superior suave
+          height: 60,                  // altura de la barra
+          paddingTop: 5,            // espacio superior para iconos
         },
       }}
     >
-      {/* 1. Encontrar */}
+      
+    {/* 1. Adoptar */}
+      <Tabs.Screen
+        name="adoptar"
+        options={{
+          title: 'Adoptar',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? 'paw' : 'paw-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      {/* 2. Encontrar */}
       <Tabs.Screen
         name="encontrar"
         options={{
@@ -32,7 +50,7 @@ export default function TabsLayout() {
         }}
       />
 
-      {/* 2. Mapa */}
+      {/* 3. Mapa */}
       <Tabs.Screen
         name="mapa"
         options={{
@@ -46,8 +64,8 @@ export default function TabsLayout() {
           ),
         }}
       />
-
-      {/* 3. Foro */}
+      
+      {/* 4. Foro */}
       <Tabs.Screen
         name="foro"
         options={{
@@ -62,7 +80,7 @@ export default function TabsLayout() {
         }}
       />
 
-      {/* 4. Perfil */}
+      {/* 5. Perfil */}
       <Tabs.Screen
         name="perfil"
         options={{
