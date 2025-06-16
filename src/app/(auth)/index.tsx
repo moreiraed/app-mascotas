@@ -16,16 +16,17 @@ export default function AuthScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Nombre de la App</Text>
+      <Text style={styles.title}>Mascotas App</Text>
 
       <Image
-        source={require('../../assets/images/cat-and-dog.png')}
+        source={require('@/src/assets/images/cat-and-dog.png')}
         style={styles.image}
         resizeMode="contain"
       />
-
-      <MainButtonLong title='Ingresar' onPress={login}></MainButtonLong>
-      <SecondaryButtonLong title='Registrarse' onPress={register}></SecondaryButtonLong>
+      <View style={{width: '100%', gap: 10}}>
+        <MainButtonLong title='Ingresar' onPress={login}></MainButtonLong>
+        <SecondaryButtonLong title='Registrarse' onPress={register}></SecondaryButtonLong>
+      </View>
     </View>
   );
 }

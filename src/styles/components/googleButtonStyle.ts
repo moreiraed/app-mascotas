@@ -9,7 +9,7 @@ const google = StyleSheet.create({
     },
     button: {
       alignItems: 'center',
-      paddingVertical: 14,
+      paddingVertical: 8,
       borderWidth: 2,
       borderRadius: 30,
       borderColor: "#E3E5E5",

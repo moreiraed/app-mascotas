@@ -1,6 +1,7 @@
 import { FlatList, View, StyleSheet } from 'react-native';
 import { LostPetCard } from '@/src/components/LostPetCard';
 import lostPets from '@/src/constants/lostPets';
+import ButtonComponent from '@/src/components/atoms/ButtonComponent';
 
 const Encontrar = () => {
   // Función para manejar favoritos
@@ -48,6 +49,11 @@ const styles = StyleSheet.create({
   separator: {
     height: 12,
   },
+  button: {
+    position: 'fixed',
+    bottom: 30,
+    right: 30,
+  }
 });
 
 export default Encontrar;

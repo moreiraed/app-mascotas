@@ -5,19 +5,18 @@ const indexStyles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      padding: 20,
+      padding: 30,
+      gap: 10,
       backgroundColor: '#fff',
     },
     title: {
       fontSize: 32,
       fontWeight: 'bold',
-      marginBottom: 40,
       color: '#333',
     },
     image: {
-      width: 200,
-      height: 200,
-      marginBottom: 40,
+      width: 250,
+      height: 250,
     },
     loginButton: {
       backgroundColor: "#FDB63B",

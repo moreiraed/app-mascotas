@@ -9,11 +9,10 @@ const facebook = StyleSheet.create({
   },
   button: {
     alignItems: 'center',   // Centra los elementos verticalmente en el contenedor
-    paddingVertical: 14,
-    paddingHorizontal: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     backgroundColor: "#7583CA", // Color de fondo del botón
     borderRadius: 30,
-    marginBottom: 20,
     flexDirection: 'row', // Asegura que el ícono y el texto estén en fila
   },
   text: {

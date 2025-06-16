@@ -1,3 +1,4 @@
+import colors from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
 
 const loginStyles = StyleSheet.create({
@@ -9,11 +10,11 @@ const loginStyles = StyleSheet.create({
     },
     button: {
       alignItems: 'center',
-      paddingVertical: 14,
+      paddingVertical: 10,
+      paddingHorizontal: 16,
       borderWidth: 2,
       borderRadius: 30,
-      borderColor: "#FF9F00",
-      paddingHorizontal: 30
+      borderColor: colors.primary,
     },
     text: {
       color: "#FDB63B",

@@ -3,8 +3,10 @@ import { StyleSheet } from 'react-native';
 const loginStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
+    alignItems: 'center',
+    padding: 30,
     backgroundColor: '#fff',
+    gap: 10,
   },
   title: {
     fontSize: 28,
@@ -30,7 +32,6 @@ const loginStyles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
-    marginBottom: 16,
   },
   passwordContainer: {
     position: 'relative',
@@ -42,17 +43,15 @@ const loginStyles = StyleSheet.create({
   },
   forgotPassword: {
     alignSelf: 'flex-end',
-    marginBottom: 16,
   },
   forgotText: {
     color: '#FF9F00',
     fontSize: 14,
   },
   lineContainer: {
-    marginTop: 14,
-    marginBottom: 14,
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 10,
   },
   line: {
     height: 1,
