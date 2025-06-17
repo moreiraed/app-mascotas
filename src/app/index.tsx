@@ -24,7 +24,7 @@ const Index = () => {
   });
 
   // Setear manualmente si esta logeado o no
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   
   const [minimumTimePassed, setMinimumTimePassed] = useState(false);
 

@@ -10,6 +10,8 @@ const lostPets = [
     location: 'Av. 25 de Mayo al 800, Resistencia',
     date: '15/05/2025',
     image: imagePath.dog01,
+    latitude: -27.4516,  // Ejemplo: coordenadas de Av. 25 de Mayo
+    longitude: -58.9867,
   },
   {
     id: '2',
@@ -19,6 +21,8 @@ const lostPets = [
     location: 'Parque 2 de Febrero, Resistencia',
     date: '10/05/2025',
     image: imagePath.cat01,
+    latitude: -27.4378,
+    longitude: -58.9829,
   },
   {
     id: '3',
@@ -28,6 +32,8 @@ const lostPets = [
     location: 'Barrio Villa San Juan, Resistencia',
     date: '09/05/2025',
     image: imagePath.cat02,
+    latitude: -27.4657,
+    longitude: -58.9757,
   },
   {
     id: '4',
