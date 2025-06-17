@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { useRouter } from 'expo-router'; 
 import { Ionicons } from '@expo/vector-icons';
@@ -12,6 +13,7 @@ import styles from '../../styles/loginStyles'
 import MainButtonLong from '@/src/components/MainButtonLong';
 import MainFacebokButton from '@/src/components/MainFacebokButton';
 import MainGoogleButton from '@/src/components/MainGoogleButton';
+import fontStyles from '@/src/styles/fontStyles';
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,10 +26,13 @@ export default function LoginScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>¡Haz vuelto!</Text>
+    <ScrollView style={styles.container}>
 
-      <View style={{width: '100%', gap: 10}}>
+      <View style={styles.title}>
+        <Text style={fontStyles.titulo}>¡Haz vuelto!</Text>
+      </View>
+
+      <View style={{width: '100%', gap: 10, paddingVertical: 10}}>
         <MainFacebokButton title='Continua con Facebook'></MainFacebokButton>
         <MainGoogleButton title='Continua con Google'></MainGoogleButton>
       </View>
@@ -38,26 +43,26 @@ export default function LoginScreen() {
         <View style={styles.line}></View>
       </View>
 
-      <View style={{width: '100%', paddingVertical: 10, gap: 10}}>
+      <View style={{width: '100%', gap: 10}}>
 
-        <View>
-          <Text style={styles.label}>Correo</Text>
+        <View style={{gap: 5}}>
+          <Text style={[fontStyles.text, {paddingLeft: 5}]}>Correo</Text>
           <TextInput
-            placeholder="Correo Electrónico"
+            placeholder="tucorreo@ejemplo.com"
             placeholderTextColor="#888"
-            style={styles.input}
+            style={[styles.input, fontStyles.textLight]}
             keyboardType="email-address"
             autoCapitalize="none"
           />
         </View>
 
-        <View>
-          <Text style={styles.label}>Contraseña</Text>
+        <View style={{gap: 5}}>
+          <Text style={[fontStyles.text, {paddingLeft: 5}]}>Contraseña</Text>
           <View style={styles.passwordContainer}>
             <TextInput
-              placeholder="Contraseña"
+              placeholder="Introduce tu contraseña"
               placeholderTextColor="#888"
-              style={styles.input}
+              style={[styles.input, fontStyles.textLight]}
               secureTextEntry={!showPassword}
             />
             <Pressable
@@ -87,6 +92,6 @@ export default function LoginScreen() {
         </TouchableOpacity>
       </View>
       
-    </View>
+    </ScrollView>
   );
 }

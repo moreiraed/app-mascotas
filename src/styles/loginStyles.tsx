@@ -1,37 +1,22 @@
 import { StyleSheet } from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
 
 const loginStyles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    padding: 30,
     backgroundColor: '#fff',
-    gap: 10,
+    padding: moderateScale(30),
+    gap: moderateScale(10),
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    marginTop: 10,
-    marginBottom: 30,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 30,
-    textAlign: 'left',
-  },
-  label: {
-    fontSize: 16,
-    color: '#333',
-    marginBottom: 6,
+    alignItems: 'center',
+    paddingVertical: moderateScale(10),
   },
   input: {
     backgroundColor: '#eee',
     borderRadius: 30,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
+    paddingHorizontal: moderateScale(16),
+    paddingVertical: moderateScale(12),
   },
   passwordContainer: {
     position: 'relative',
@@ -67,6 +52,7 @@ const loginStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 10,
   },
   footerText: {
     fontSize: 14,
@@ -77,6 +63,38 @@ const loginStyles = StyleSheet.create({
     fontSize: 14,
     color: '#FF9F00',
     marginLeft: 5,
+  },
+  footerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkboxContainer: {
+    marginVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkboxButton: {
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkboxRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',  
+    width: '90%',
+  },
+  footerTextTC: {
+    fontSize: 14,
+    color: '#777',
+    textAlign: 'left',
+    flex: 1,
+  },
+  footerLinkTC: {
+    fontSize: 16,
+    color: '#0066cc',
+    textDecorationLine: 'underline',
   },
 });
 
