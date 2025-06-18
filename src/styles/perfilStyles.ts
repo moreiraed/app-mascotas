@@ -31,11 +31,11 @@ export default StyleSheet.create({
      padding: 10,
   },
   tabBar: {
-    backgroundColor: '#F7EFE9',
+    backgroundColor: '#FF9F00',
     marginBottom: 8,
   },
   indicator: {
-    backgroundColor: '#FF9F00',
+    backgroundColor: '#FFFF',
     height: 3,
   },
   tabLabel: {
@@ -49,14 +49,13 @@ export default StyleSheet.create({
   },
   gallery: {
     paddingVertical: 8,
+    
   },
   galleryImage: {
     flex: 1,
     margin: 4,
     height: 120,
     borderRadius: 8,
-    borderWidth: 3,
-    borderColor: '#FFF',
   },
   mascotasContainer: {
     flex: 1,
@@ -67,16 +66,73 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#777',
   },
-   cover: {
-    width: screenWidth,
-  height: 200,
-  resizeMode: 'cover',
-    
-  },
+   
   profileContainer: {
-    alignItems: 'center',
-    marginTop: -100, 
+    alignItems: 'flex-start',
+    marginTop: 20, 
+    padding: 4,
     flex: 0.2,
   },
- 
+  mascotasLista: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  mascotaItem: {
+    marginHorizontal: 4,
+    marginVertical: 4,
+    backgroundColor: '#FFF',
+    borderRadius: 12,
+    elevation: 2,
+    overflow: 'hidden',
+    minWidth: 125,
+  },
+  mascotaImagen: {
+    height: 120,
+    borderColor: '#FFF',
+    width: '100%',
+    
+  },
+  mascotaTextoContenedor: {
+    width: '100%',
+    backgroundColor: '#FF9F00',
+    paddingVertical: 8,
+    alignItems: 'center',
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    height: 40,
+    justifyContent: 'center',
+    
+  },
+  mascotaNombre: {
+    fontSize: 16,
+    color: '#FFF',
+    fontWeight: 'bold',
+    
+  },
+  menuOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+  },
+  menuContainer: {
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    marginTop: 50,
+    marginRight: 20,
+    minWidth: 150,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+  },
+  menuItem: {
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+  },
+  menuItemText: {
+    fontSize: 16,
+    color: '#333',
+  },
 });
