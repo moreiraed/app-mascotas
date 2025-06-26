@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-
+import  colors  from '@/src/constants/colors';
 export const perfilMascotaStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -31,7 +31,7 @@ export const perfilMascotaStyles = StyleSheet.create({
 
   // Caja contenedora principal
   contentBox: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
     marginTop: -20,
     borderRadius: 20,
     paddingTop: 25,
@@ -57,7 +57,7 @@ export const perfilMascotaStyles = StyleSheet.create({
   petName: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.textPrimary,
     textAlign: 'center',
   },
   
@@ -75,7 +75,7 @@ export const perfilMascotaStyles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     paddingVertical: 15,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: colors.background,
     marginHorizontal: 5,
     borderRadius: 12,
     shadowColor: '#000',
@@ -90,7 +90,7 @@ export const perfilMascotaStyles = StyleSheet.create({
   
   infoLabel: {
     fontSize: 12,
-    color: '#666',
+    color: colors.textSecondary,
     fontWeight: '500',
     marginBottom: 5,
     textTransform: 'uppercase',
@@ -98,7 +98,7 @@ export const perfilMascotaStyles = StyleSheet.create({
   
   infoValue: {
     fontSize: 16,
-    color: '#333',
+    color: colors.textPrimary,
     fontWeight: 'bold',
   },
   
@@ -111,7 +111,7 @@ export const perfilMascotaStyles = StyleSheet.create({
 
   // Estilos para el calendario
   calendarContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
     borderRadius: 15,
     padding: 15,
     shadowColor: '#000',
@@ -127,14 +127,14 @@ export const perfilMascotaStyles = StyleSheet.create({
   calendarTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.textPrimary,
     marginBottom: 15,
     textAlign: 'left',
   },
 
   // Estilos para el calendario pequeño
   calendarContainerSmall: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
     borderRadius: 15,
     padding: 6,
     shadowColor: '#000',
@@ -152,7 +152,7 @@ export const perfilMascotaStyles = StyleSheet.create({
 
   // Estilos para el calendario expandido
   calendarContainerExpanded: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
     borderRadius: 15,
     padding: 15,
     shadowColor: '#000',
@@ -171,7 +171,7 @@ export const perfilMascotaStyles = StyleSheet.create({
     position: 'absolute',
     right: 15,
     top: 15,
-    backgroundColor: '#FF9F00',
+    backgroundColor: colors.primary,
     borderRadius: 20,
     width: 30,
     height: 30,
@@ -181,7 +181,7 @@ export const perfilMascotaStyles = StyleSheet.create({
   },
 
   expandButtonText: {
-    color: '#FFFFFF',
+    color: colors.background,
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -201,7 +201,7 @@ export const perfilMascotaStyles = StyleSheet.create({
   },
 
   overlayText: {
-    color: '#FF9F00',
+    color: colors.primary,
     fontSize: 14,
     fontWeight: '600',
     

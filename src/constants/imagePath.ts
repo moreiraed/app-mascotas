@@ -12,4 +12,5 @@ export default {
     dog03: require('@/src/assets/images/pets/dogs/dog03.jpg'),
     dog04: require('@/src/assets/images/pets/dogs/dog04.jpg'),
     dog05: require('@/src/assets/images/pets/dogs/dog05.jpg'),
+    dog06: require('@/src/assets/images/pets/dogs/dog06.jpg'),
 }
