@@ -2,42 +2,76 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
   Pressable,
   ScrollView,
+  Alert,
 } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import styles from '../../styles/loginStyles'
+import styles from '../../styles/loginStyles';
 import MainButtonLong from '@/src/components/MainButtonLong';
-import SecondaryButtonLong from '@/src/components/SecondaryButton';
 import MainFacebokButton from '@/src/components/MainFacebokButton';
 import MainGoogleButton from '@/src/components/MainGoogleButton';
 import fontStyles from '@/src/styles/fontStyles';
-
+import { useAuth } from '@/src/hooks/useAuth';
 
 export default function RegisterScreen() {
-  const [checkboxChecked, setCheckboxChecked] = useState(false);  // Declaramos el estado para el checkbox
+  const [checkboxChecked, setCheckboxChecked] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const router = useRouter();
+  const { register, isLoading: authLoading } = useAuth();
 
   const toggleCheckbox = () => {
-    setCheckboxChecked(prevState => !prevState);  // Cambia el estado cuando se presiona el botón
+    setCheckboxChecked(prevState => !prevState);
   };
 
+  // Muestra los términos y condiciones (implemetar logica)
   const showTerms = () => {
-    // Aquí puedes hacer lo que necesites al hacer click en el texto de "Ver términos y condiciones"
     console.log("Mostrar términos y condiciones");
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
-  const registrarse = () => {
-    router.push('/(auth)/welcome');
-  }
+  // Funcion que alerta indicando que la funcionalidad está en desarrollo
+  const handleSocialLogin = (provider: string) => {
+    Alert.alert('Próximamente', `Login con ${provider} en desarrollo`);
+  };
+
+  // Maneja el registro de usuario
+  const handleRegister = async () => {
+    if (!username || !email || !password) {
+      Alert.alert('Error', 'Por favor completa todos los campos');
+      return;
+    }
+
+    if (!checkboxChecked) {
+      Alert.alert('Error', 'Debes aceptar los términos y condiciones');
+      return;
+    }
+
+    setIsLoading(true);
+    const result = await register({
+      username,
+      email,
+      password
+    });
+    setIsLoading(false);
+
+    if (result.success) {
+      router.push('/(auth)/welcome');
+    } else {
+      Alert.alert('Error', result.message || 'Error al registrar');
+    }
+  };
+
   const login = () => {
     router.push('/(auth)/login');
-  }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -46,8 +80,14 @@ export default function RegisterScreen() {
       </View>
 
       <View style={{width: '100%', gap: 10, paddingVertical: 10}}>
-        <MainFacebokButton title='Continua con Facebook'></MainFacebokButton>
-        <MainGoogleButton title='Continua con Google'></MainGoogleButton>
+        <MainFacebokButton
+          title='Continua con Facebook'
+          onPress={() => handleSocialLogin('Facebook')}  
+        />
+        <MainGoogleButton
+          title='Continua con Google'
+          onPress={() => handleSocialLogin('Google')}
+        />
       </View>
 
       <View style={styles.lineContainer}>
@@ -57,13 +97,15 @@ export default function RegisterScreen() {
       </View>
 
       <View style={{width: '100%', gap: 10}}>
-
         <View style={{gap: 5}}>
           <Text style={[fontStyles.text, {paddingLeft: 5}]}>Nombre</Text>
           <TextInput
             placeholder="Nombre de Usuario"
             placeholderTextColor="#888"
             style={[styles.input, fontStyles.textLight]}
+            value={username}
+            onChangeText={setUsername}
+            autoCapitalize="none"
           />
         </View>
 
@@ -75,6 +117,8 @@ export default function RegisterScreen() {
             style={[styles.input, fontStyles.textLight]}
             keyboardType="email-address"
             autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
 
@@ -86,6 +130,8 @@ export default function RegisterScreen() {
               placeholderTextColor="#888"
               style={[styles.input, fontStyles.textLight]}
               secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
             />
             <Pressable
               style={styles.eyeButton}
@@ -104,13 +150,16 @@ export default function RegisterScreen() {
           <View style={styles.checkboxRow}>
             <Text style={styles.footerTextTC}>He leído y acepto los <Text style={styles.footerLink} onPress={showTerms}>términos y condiciones</Text></Text>
             <TouchableOpacity style={styles.checkboxButton} onPress={toggleCheckbox}>
-              {/* Aquí mostramos el ícono con el color naranja #FF9F00 */}
               <FontAwesome name={checkboxChecked ? 'check-square' : 'square'} size={24} color={checkboxChecked ? '#FF9F00' : '#ddd'} />
             </TouchableOpacity>
           </View>
         </View>
 
-        <MainButtonLong title='Registrarse' onPress={registrarse}></MainButtonLong>
+        <MainButtonLong 
+          title='Registrarse' 
+          onPress={handleRegister}
+          loading={isLoading || authLoading}
+        />
       </View>
 
       <View style={styles.footer}>
@@ -119,7 +168,6 @@ export default function RegisterScreen() {
           <Text style={styles.footerLink} onPress={login}>Inicia sesión</Text>
         </TouchableOpacity>
       </View>
-
     </ScrollView>
   );
 }

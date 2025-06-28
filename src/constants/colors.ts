@@ -1,5 +1,6 @@
 export default {
   primary: '#FF9F00', // Principal
+  primaryLight: 'rgba(255, 159, 0, 0.7)',
   secondary: '#FF6200',
   background: '#FFFFFF',
   textPrimary: '#3F414E', // Texto fuerte

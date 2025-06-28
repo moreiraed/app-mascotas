@@ -6,35 +6,67 @@ import {
   TouchableOpacity,
   Pressable,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { useRouter } from 'expo-router'; 
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../../styles/loginStyles'
+import styles from '../../styles/loginStyles';
 import MainButtonLong from '@/src/components/MainButtonLong';
 import MainFacebokButton from '@/src/components/MainFacebokButton';
 import MainGoogleButton from '@/src/components/MainGoogleButton';
 import fontStyles from '@/src/styles/fontStyles';
+import { useAuth } from '@/src/hooks/useAuth';
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const ingresar = () => {
-    router.push('/(auth)/welcome');
-  }
+  const { signIn, isLoading: authLoading } = useAuth();
+
+  // Funcion que alerta indicando que la funcionalidad está en desarrollo
+  const handleSocialLogin = (provider: string) => {
+    Alert.alert('Próximamente', `Login con ${provider} en desarrollo`);
+  };
+
+  // Maneja el inicio de sesión con email o nombre de usuario y contraseña
+  const handleLogin = async () => {
+    if (!identifier || !password) {
+      Alert.alert('Error', 'Por favor completa todos los campos');
+      return;
+    }
+
+    setIsLoading(true);
+    const result = await signIn(identifier, password);
+    setIsLoading(false);
+
+    if (result.success) {
+      router.push('/(auth)/welcome');
+    } else {
+      Alert.alert('Error', result.message || 'Error al iniciar sesión');
+    }
+  };
+
   const registrarse = () => {
     router.push('/(auth)/register');
-  }
+  };
 
   return (
     <ScrollView style={styles.container}>
-
       <View style={styles.title}>
         <Text style={fontStyles.titulo}>¡Haz vuelto!</Text>
       </View>
 
       <View style={{width: '100%', gap: 10, paddingVertical: 10}}>
-        <MainFacebokButton title='Continua con Facebook'></MainFacebokButton>
-        <MainGoogleButton title='Continua con Google'></MainGoogleButton>
+        <MainFacebokButton
+          title='Continua con Facebook'
+          onPress={() => handleSocialLogin('Facebook')}  
+        />
+        <MainGoogleButton
+          title='Continua con Google'
+          onPress={() => handleSocialLogin('Google')}
+        />
       </View>
 
       <View style={styles.lineContainer}>
@@ -44,15 +76,16 @@ export default function LoginScreen() {
       </View>
 
       <View style={{width: '100%', gap: 10}}>
-
         <View style={{gap: 5}}>
-          <Text style={[fontStyles.text, {paddingLeft: 5}]}>Correo</Text>
+          <Text style={[fontStyles.text, {paddingLeft: 5}]}>Correo o Usuario</Text>
           <TextInput
-            placeholder="tucorreo@ejemplo.com"
+            placeholder="tucorreo@ejemplo.com o usuario"
             placeholderTextColor="#888"
             style={[styles.input, fontStyles.textLight]}
             keyboardType="email-address"
             autoCapitalize="none"
+            value={identifier}
+            onChangeText={setIdentifier}
           />
         </View>
 
@@ -64,6 +97,8 @@ export default function LoginScreen() {
               placeholderTextColor="#888"
               style={[styles.input, fontStyles.textLight]}
               secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
             />
             <Pressable
               style={styles.eyeButton}
@@ -82,7 +117,11 @@ export default function LoginScreen() {
           <Text style={styles.forgotText}>¿Olvidó su contraseña?</Text>
         </TouchableOpacity>
         
-        <MainButtonLong title='Ingresar' onPress={ingresar}></MainButtonLong>
+        <MainButtonLong 
+          title='Ingresar' 
+          onPress={handleLogin}
+          loading={isLoading || authLoading}
+        />
       </View>
 
       <View style={styles.footer}>
@@ -91,7 +130,6 @@ export default function LoginScreen() {
           <Text style={styles.footerLink} onPress={registrarse}>Registrate</Text>
         </TouchableOpacity>
       </View>
-      
     </ScrollView>
   );
 }

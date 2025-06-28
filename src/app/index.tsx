@@ -8,14 +8,15 @@ import {
   Nunito_600SemiBold,
   Nunito_700Bold,
 } from '@expo-google-fonts/nunito';
-
+import { useAuth } from '@/src/hooks/useAuth'; // Importa el hook de autenticación
 import imagePath from '../constants/imagePath';
-import loaderStyles from '@/src/styles/loaderStyles'
+import loaderStyles from '@/src/styles/loaderStyles';
 import fontStyles from '../styles/fontStyles';
 import colors from '../constants/colors';
 
+
 const Index = () => {
-  // Se cargan las fuentes
+  // Carga de fuentes
   const [fontsLoaded] = useFonts({
     Nunito_300Light,
     Nunito_400Regular,
@@ -23,12 +24,10 @@ const Index = () => {
     Nunito_700Bold,
   });
 
-  // Setear manualmente si esta logeado o no
-  const [isLogin, setIsLogin] = useState(true);
-  
   const [minimumTimePassed, setMinimumTimePassed] = useState(false);
+  const { user, isLoading } = useAuth(); // Obtiene el estado de autenticación
 
-  // Tiempo de espera minimo para arrancar la aplicación
+  // Tiempo mínimo de espera para el splash screen
   useEffect(() => {
     const timer = setTimeout(() => {
       setMinimumTimePassed(true);
@@ -37,32 +36,39 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Si las fuentes cargaron y el tiempo minimo ha pasado, redirigir
+  // Redirección basada en autenticación
   useEffect(() => {
-    if (fontsLoaded && minimumTimePassed) {
-      if (isLogin) router.replace('/(tabs)/encontrar'); // Redirige a (tabs) si isLogin es true
-      else router.replace('/(auth)'); // Redirige a (auth) si isLogin es false
+    if (fontsLoaded && minimumTimePassed && !isLoading) {
+      if (user) {
+        router.replace('/(tabs)/adoptar'); // Usuario autenticado
+      } else {
+        router.replace('/(auth)'); // No autenticado
+      }
     }
-  }, [fontsLoaded, minimumTimePassed]);
+  }, [fontsLoaded, minimumTimePassed, isLoading, user]);
 
-  // Pantalla de espera
-  return (
-    <SafeAreaView style={loaderStyles.container}>
-      <View style={loaderStyles.header}></View>
-      <View style={loaderStyles.body}>
-        <Image
-          source={imagePath.icon}
-          resizeMode="contain"
-          style={loaderStyles.icon}
-        />
-        <Text style={fontStyles.titulo}>App Mascotas</Text>
-      </View>
-      <View style={loaderStyles.footer}>
-        <ActivityIndicator size="large" color={colors.primary}/>
-        <Text style={fontStyles.textLight}>Loading..</Text>
-      </View>
-    </SafeAreaView>
-  );
+  // Muestra el splash screen mientras carga
+  if (!fontsLoaded || !minimumTimePassed || isLoading) {
+    return (
+      <SafeAreaView style={loaderStyles.container}>
+        <View style={loaderStyles.header}></View>
+        <View style={loaderStyles.body}>
+          <Image
+            source={imagePath.icon}
+            resizeMode="contain"
+            style={loaderStyles.icon}
+          />
+          <Text style={fontStyles.titulo}>App Mascotas</Text>
+        </View>
+        <View style={loaderStyles.footer}>
+          <ActivityIndicator size="large" color={colors.primary}/>
+          <Text style={fontStyles.textLight}>Loading..</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  return null; // Nunca debería llegar aquí
 };
 
 export default Index;

@@ -19,7 +19,15 @@ const loginStyles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
+  // Estilos nuevos agregados
+  disabledButton: {
+    backgroundColor: colors.primaryLight, // Asegúrate de tener este color definido en tus constantes
+    opacity: 0.7,
+  },
+  loadingIndicator: {
+    paddingVertical: 2, // Ajuste para centrar mejor el indicador
+  },
 });
 
 export default loginStyles;
