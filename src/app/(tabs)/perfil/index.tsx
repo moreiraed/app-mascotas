@@ -6,6 +6,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import imagePath from '@/src/constants/imagePath';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LogoutButton from '@/src/components/molecules/LogoutButton';
+import { useAuth } from '@/src/hooks/useAuth';
 
 
 
@@ -35,10 +37,13 @@ export default function PerfilScreen() {
   const [username, setUsername] = useState('@Nombre_usuario');
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [mascotas, setMascotas] = useState<any[]>([]);
+  const { currentUserId } = useAuth();
 
   useEffect(() => {
     const loadMascotas = async () => {
-      const mascotasRaw = await AsyncStorage.getItem('mascotas');
+      if (!currentUserId) return;
+      
+      const mascotasRaw = await AsyncStorage.getItem(`mascotas_${currentUserId}`);
       setMascotas(mascotasRaw ? JSON.parse(mascotasRaw) : []);
     };
     // Recarga cuando la pantalla obtiene foco
@@ -49,16 +54,18 @@ export default function PerfilScreen() {
     } else {
       loadMascotas();
     }
-  }, [router]);
+  }, [router, currentUserId]);
 
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const value = await AsyncStorage.getItem('username');
+        if (!currentUserId) return;
+        
+        const value = await AsyncStorage.getItem(`username_${currentUserId}`);
         if (value !== null) {
           setUsername(value);
         }
-        const uri = await AsyncStorage.getItem('profileImage');
+        const uri = await AsyncStorage.getItem(`profileImage_${currentUserId}`);
         if (uri) setProfileImage(uri);
         else setProfileImage(null);
       } catch (e) {
@@ -66,7 +73,7 @@ export default function PerfilScreen() {
       }
     };
     loadProfile();
-  }, []);
+  }, [currentUserId]);
 
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
@@ -80,10 +87,12 @@ export default function PerfilScreen() {
   };
 
   const eliminarMascota = async (id: string) => {
-    const mascotasRaw = await AsyncStorage.getItem('mascotas');
+    if (!currentUserId) return;
+    
+    const mascotasRaw = await AsyncStorage.getItem(`mascotas_${currentUserId}`);
     let mascotas = mascotasRaw ? JSON.parse(mascotasRaw) : [];
     mascotas = mascotas.filter((m: any) => m.id !== id);
-    await AsyncStorage.setItem('mascotas', JSON.stringify(mascotas));
+    await AsyncStorage.setItem(`mascotas_${currentUserId}`, JSON.stringify(mascotas));
     setMascotas(mascotas);
   };
 
@@ -200,6 +209,7 @@ export default function PerfilScreen() {
             <TouchableOpacity onPress={handleEditarPerfil} style={styles.menuItem}>
               <Text style={styles.menuItemText}>Editar perfil</Text>
             </TouchableOpacity>
+            <LogoutButton />
           </View>
         </Pressable>
       </Modal>

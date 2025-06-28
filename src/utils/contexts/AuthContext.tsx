@@ -14,6 +14,7 @@ type AuthContextType = {
   signIn: (identifier: string, password: string) => Promise<{ success: boolean; message?: string }>;
   signOut: () => Promise<void>;
   register: (userData: Omit<User, 'id'>) => Promise<{ success: boolean; message?: string }>;
+  currentUserId: string | null;
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -22,6 +23,7 @@ export const AuthContext = createContext<AuthContextType>({
   signIn: async () => ({ success: false, message: 'Sistema no inicializado' }),
   signOut: async () => {},
   register: async () => ({ success: false, message: 'Sistema no inicializado' }),
+  currentUserId: null,
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -115,7 +117,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, signIn, signOut, register }}>
+    <AuthContext.Provider value={{ user, isLoading, signIn, signOut, register, currentUserId: user?.id || null }}>
       {children}
     </AuthContext.Provider>
   );

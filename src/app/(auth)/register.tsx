@@ -16,6 +16,7 @@ import MainFacebokButton from '@/src/components/MainFacebokButton';
 import MainGoogleButton from '@/src/components/MainGoogleButton';
 import fontStyles from '@/src/styles/fontStyles';
 import { useAuth } from '@/src/hooks/useAuth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterScreen() {
   const [checkboxChecked, setCheckboxChecked] = useState(false);
@@ -63,6 +64,17 @@ export default function RegisterScreen() {
     setIsLoading(false);
 
     if (result.success) {
+      // Guardar el username del usuario para mostrarlo en el perfil
+      try {
+        const storedUser = await AsyncStorage.getItem('currentUser');
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          await AsyncStorage.setItem(`username_${user.id}`, username);
+        }
+      } catch (error) {
+        console.error('Error saving username:', error);
+      }
+      
       router.push('/(auth)/welcome');
     } else {
       Alert.alert('Error', result.message || 'Error al registrar');

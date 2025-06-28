@@ -27,9 +27,7 @@ export default function PerfilMascota() {
   } else {
     imageSource = imagePath.cat01;
   }
-  // Log para depuración
-  console.log('params.imagen:', params.imagen);
-  console.log('imageSource:', imageSource);
+  
 
   // Datos de la mascota seleccionada o valores por defecto
   const petData = {
@@ -109,69 +107,138 @@ export default function PerfilMascota() {
           </View>
         </View>
 
-        {/* Calendario */}
-        <View style={[
-          isCalendarExpanded 
-            ? perfilMascotaStyles.calendarContainerExpanded 
-            : perfilMascotaStyles.calendarContainerSmall
-        ]}>
-          <Text style={perfilMascotaStyles.calendarTitle}>Calendario de Eventos</Text>
-          
-          {/* Botón para expandir/contraer */}
-          <TouchableOpacity 
-            style={perfilMascotaStyles.expandButton}
-            onPress={toggleCalendar}
-          >
-            <Text style={perfilMascotaStyles.expandButtonText}>
-              {isCalendarExpanded ? '−' : '+'}
-            </Text>
-          </TouchableOpacity>
-
-          <Calendar
-            onDayPress={(day: DateData) => {
-              setSelected(day.dateString);
-            }}
-            markedDates={{
-              [selected]: {
-                selected: true,
-                disableTouchEvent: true,
-                selectedColor: '#FF9F00',
-                selectedTextColor: '#FFFFFF',
-              }
-            }}
-            theme={{
-              backgroundColor: '#ffffff',
-              calendarBackground: '#ffffff',
-              textSectionTitleColor: '#333',
-              selectedDayBackgroundColor: '#FF9F00',
-              selectedDayTextColor: '#ffffff',
-              todayTextColor: '#FF9F00',
-              dayTextColor: '#333',
-              textDisabledColor: '#d9e1e8',
-              dotColor: '#FF9F00',
-              selectedDotColor: '#ffffff',
-              arrowColor: '#FF9F00',
-              monthTextColor: '#333',
-              indicatorColor: '#FF9F00',
-              textDayFontWeight: '300',
-              textMonthFontWeight: 'bold',
-              textDayHeaderFontWeight: '300',
-              textDayFontSize: 16,
-              textMonthFontSize: 16,
-              textDayHeaderFontSize: 13
-            }}
-          />
-
-          {/* Overlay para el calendario pequeño */}
-          {!isCalendarExpanded && (
-            <TouchableOpacity 
-              style={perfilMascotaStyles.calendarOverlay}
-              onPress={toggleCalendar}
+        {/* Calendario y Botón Libreta Sanitaria en fila si está contraído */}
+        {isCalendarExpanded ? (
+          <>
+            <View style={[
+              perfilMascotaStyles.calendarContainerExpanded
+            ]}>
+              <Text style={perfilMascotaStyles.calendarTitle}>Calendario de Eventos</Text>
+              {/* Botón para expandir/contraer */}
+              <TouchableOpacity 
+                style={perfilMascotaStyles.expandButton}
+                onPress={toggleCalendar}
+              >
+                <Text style={perfilMascotaStyles.expandButtonText}>
+                  {isCalendarExpanded ? '−' : '+'}
+                </Text>
+              </TouchableOpacity>
+              <Calendar
+                onDayPress={(day: DateData) => {
+                  setSelected(day.dateString);
+                }}
+                markedDates={{
+                  [selected]: {
+                    selected: true,
+                    disableTouchEvent: true,
+                    selectedColor: '#FF9F00',
+                    selectedTextColor: '#FFFFFF',
+                  }
+                }}
+                theme={{
+                  backgroundColor: '#ffffff',
+                  calendarBackground: '#ffffff',
+                  textSectionTitleColor: '#333',
+                  selectedDayBackgroundColor: '#FF9F00',
+                  selectedDayTextColor: '#ffffff',
+                  todayTextColor: '#FF9F00',
+                  dayTextColor: '#333',
+                  textDisabledColor: '#d9e1e8',
+                  dotColor: '#FF9F00',
+                  selectedDotColor: '#ffffff',
+                  arrowColor: '#FF9F00',
+                  monthTextColor: '#333',
+                  indicatorColor: '#FF9F00',
+                  textDayFontWeight: '300',
+                  textMonthFontWeight: 'bold',
+                  textDayHeaderFontWeight: '300',
+                  textDayFontSize: 16,
+                  textMonthFontSize: 16,
+                  textDayHeaderFontSize: 13
+                }}
+              />
+              {/* Overlay para el calendario pequeño */}
+              {!isCalendarExpanded && (
+                <TouchableOpacity 
+                  style={perfilMascotaStyles.calendarOverlay}
+                  onPress={toggleCalendar}
+                >
+                  <Text style={perfilMascotaStyles.overlayText}>Toca para expandir</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+            {/* Botón debajo si expandido */}
+            <TouchableOpacity
+              style={[
+                perfilMascotaStyles.libretaButton,
+                isCalendarExpanded && { marginTop: 20 }
+              ]}
+              onPress={() => router.push('/(tabs)/perfil/libretaSanitaria')}
             >
-              <Text style={perfilMascotaStyles.overlayText}>Toca para expandir</Text>
+              <Text style={perfilMascotaStyles.libretaButtonText}>Libreta Sanitaria</Text>
             </TouchableOpacity>
-          )}
-        </View>
+          </>
+        ) : (
+          <View style={perfilMascotaStyles.rowContainer}>
+            <View style={perfilMascotaStyles.calendarContainerSmall}>
+              <Text style={perfilMascotaStyles.calendarTitle}>Calendario de Eventos</Text>
+              <TouchableOpacity 
+                style={perfilMascotaStyles.expandButton}
+                onPress={toggleCalendar}
+              >
+                <Text style={perfilMascotaStyles.expandButtonText}>+</Text>
+              </TouchableOpacity>
+              <Calendar
+                onDayPress={(day: DateData) => {
+                  setSelected(day.dateString);
+                }}
+                markedDates={{
+                  [selected]: {
+                    selected: true,
+                    disableTouchEvent: true,
+                    selectedColor: '#FF9F00',
+                    selectedTextColor: '#FFFFFF',
+                  }
+                }}
+                theme={{ 
+                  backgroundColor: '#ffffff',
+                  calendarBackground: '#ffffff',
+                  textSectionTitleColor: '#333',
+                  selectedDayBackgroundColor: '#FF9F00',
+                  selectedDayTextColor: '#ffffff',
+                  todayTextColor: '#FF9F00',
+                  dayTextColor: '#333',
+                  textDisabledColor: '#d9e1e8',
+                  dotColor: '#FF9F00',
+                  selectedDotColor: '#ffffff',
+                  arrowColor: '#FF9F00',
+                  monthTextColor: '#333',
+                  indicatorColor: '#FF9F00',
+                  textDayFontWeight: '300',
+                  textMonthFontWeight: 'bold',
+                  textDayHeaderFontWeight: '300',
+                  textDayFontSize: 16,
+                  textMonthFontSize: 16,
+                  textDayHeaderFontSize: 13
+                }}
+              />
+              {!isCalendarExpanded && (
+                <TouchableOpacity 
+                  style={perfilMascotaStyles.calendarOverlay}
+                  onPress={toggleCalendar}
+                >
+                  <Text style={perfilMascotaStyles.overlayText}>Toca para expandir</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+            <TouchableOpacity
+              style={perfilMascotaStyles.libretaButton}
+              onPress={() => router.push('/(tabs)/perfil/libretaSanitaria')}
+            >
+              <Text style={perfilMascotaStyles.libretaButtonText}>Libreta Sanitaria</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </ScrollView>
   );

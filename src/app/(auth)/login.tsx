@@ -16,6 +16,7 @@ import MainFacebokButton from '@/src/components/MainFacebokButton';
 import MainGoogleButton from '@/src/components/MainGoogleButton';
 import fontStyles from '@/src/styles/fontStyles';
 import { useAuth } from '@/src/hooks/useAuth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +43,22 @@ export default function LoginScreen() {
     setIsLoading(false);
 
     if (result.success) {
+      // Guardar el username del usuario para mostrarlo en el perfil
+      try {
+        const storedUser = await AsyncStorage.getItem('currentUser');
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          // Si el usuario inició sesión con email, buscar su username
+          if (user.email === identifier) {
+            await AsyncStorage.setItem(`username_${user.id}`, user.username);
+          } else {
+            await AsyncStorage.setItem(`username_${user.id}`, identifier);
+          }
+        }
+      } catch (error) {
+        console.error('Error saving username:', error);
+      }
+      
       router.push('/(auth)/welcome');
     } else {
       Alert.alert('Error', result.message || 'Error al iniciar sesión');

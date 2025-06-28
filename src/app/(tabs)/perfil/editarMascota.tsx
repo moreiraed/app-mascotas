@@ -5,11 +5,13 @@ import * as ImagePicker from 'expo-image-picker';
 import imagePath from '@/src/constants/imagePath';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
+import { useAuth } from '@/src/hooks/useAuth';
 
 export default function EditarMascota() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const imagePathMap = imagePath as Record<string, any>;
+  const { currentUserId } = useAuth();
 
   const [nombre, setNombre] = useState(params.nombre as string || '');
   const [sexo, setSexo] = useState(params.sexo as string || '');
@@ -56,8 +58,13 @@ export default function EditarMascota() {
       Alert.alert('Error', 'El nombre no puede estar vacío.');
       return;
     }
+    if (!currentUserId) {
+      Alert.alert('Error', 'No se pudo identificar al usuario.');
+      return;
+    }
+    
     try {
-      const mascotasRaw = await AsyncStorage.getItem('mascotas');
+      const mascotasRaw = await AsyncStorage.getItem(`mascotas_${currentUserId}`);
       let mascotas = mascotasRaw ? JSON.parse(mascotasRaw) : [];
       const index = mascotas.findIndex((m: any) => m.id === id);
       const imagenFinal = imagenUri ? imagenUri : imagen;
@@ -75,7 +82,7 @@ export default function EditarMascota() {
       } else {
         mascotas.push(nuevaMascota);
       }
-      await AsyncStorage.setItem('mascotas', JSON.stringify(mascotas));
+      await AsyncStorage.setItem(`mascotas_${currentUserId}`, JSON.stringify(mascotas));
       router.replace({
         pathname: '/(tabs)/perfil/PerfilMascota',
         params: nuevaMascota,

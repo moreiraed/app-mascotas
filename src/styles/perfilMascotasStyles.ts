@@ -206,4 +206,35 @@ export const perfilMascotaStyles = StyleSheet.create({
     fontWeight: '600',
     
   },
+
+  libretaButton: {
+    alignSelf: 'auto',
+    width: '45%',
+    height: 120,
+    backgroundColor: colors.primary,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  libretaButtonText: {
+    color: colors.white,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    width: '100%',
+    marginTop: 0,
+  },
 });
