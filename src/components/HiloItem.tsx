@@ -24,7 +24,10 @@ export default function HiloItem({ hilo }: HiloItemProps) {
     >
       <Text style={styles.titulo}>{hilo.titulo}</Text>
       <View style={styles.meta}>
-        <Text style={styles.autor}>Por {hilo.autor.nombre}</Text>
+        <View style={styles.autorContainer}>
+          <MaterialIcons name="account-circle" size={16} color="#666" />
+          <Text style={styles.autor}>Por {hilo.autor.nombre}</Text>
+        </View>
         <Text style={styles.fecha}>
           {new Date(hilo.fecha).toLocaleDateString('es-ES', {
             day: 'numeric',
@@ -68,9 +71,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 8,
   },
+  autorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   autor: {
     color: '#666',
     fontSize: 14,
+    marginLeft: 4,
   },
   fecha: {
     color: '#999',

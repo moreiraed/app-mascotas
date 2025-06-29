@@ -34,7 +34,6 @@ export const useForoSync = () => {
           const nuevoUsuarioForo: Usuario = {
             id: user.id,
             nombre: user.username,
-            avatar: undefined 
           };
           
           // Actualizamos la lista de usuarios del foro

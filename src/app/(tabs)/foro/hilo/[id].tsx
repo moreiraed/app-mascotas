@@ -49,7 +49,6 @@ export default function PantallaHilo() {
       const autorComentario = { 
         id: user.id, 
         nombre: user.username,
-        avatar: undefined
       };
       
       const comentarioAgregado = await agregarComentario(

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { Comentario } from '@/src/types/tipos';
 
 interface ComentarioItemProps {
@@ -10,7 +10,10 @@ export default function ComentarioItem({ comentario }: ComentarioItemProps) {
   return (
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>
-        <Text style={styles.autor}>{comentario.autor.nombre}</Text>
+        <View style={styles.autorContainer}>
+          <MaterialIcons name="account-circle" size={16} color="#444" />
+          <Text style={styles.autor}>{comentario.autor.nombre}</Text>
+        </View>
         <Text style={styles.fecha}>{new Date(comentario.fecha).toLocaleDateString()}</Text>
       </View>
       <Text style={styles.contenido}>{comentario.contenido}</Text>
@@ -33,9 +36,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 8,
   },
+  autorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   autor: {
     fontWeight: 'bold',
     color: '#444',
+    marginLeft: 4,
   },
   fecha: {
     color: '#999',

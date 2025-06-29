@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, TextInput, Pressable, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Pressable, Text, StyleSheet, Alert } from 'react-native';
 
 interface FormularioComentarioProps {
   onSubmit: (contenido: string) => Promise<void>;
@@ -7,17 +7,23 @@ interface FormularioComentarioProps {
 
 export default function FormularioComentario({ onSubmit }: FormularioComentarioProps) {
   const [contenido, setContenido] = useState('');
+  const [error, setError] = useState('');
   const [enviando, setEnviando] = useState(false);
 
   const handleEnviar = async () => {
-    if (!contenido.trim()) return;
+    if (!contenido.trim()) {
+      setError('El comentario no puede estar vacío');
+      return;
+    }
     
     setEnviando(true);
     try {
       await onSubmit(contenido);
       setContenido('');
-    } catch (error) {
-      console.error('Error al enviar comentario:', error);
+      setError('');
+    } catch (e) {
+      Alert.alert('Error', 'No se pudo enviar el comentario');
+      console.error('Error al enviar comentario:', e);
     } finally {
       setEnviando(false);
     }
@@ -26,12 +32,17 @@ export default function FormularioComentario({ onSubmit }: FormularioComentarioP
   return (
     <View style={styles.contenedor}>
       <TextInput
-        style={styles.input}
+        style={[styles.input, error ? styles.inputError : null]}
         placeholder="Escribe un comentario..."
         value={contenido}
-        onChangeText={setContenido}
+        onChangeText={(text) => {
+          setContenido(text);
+          setError('');
+        }}
         multiline
       />
+      {error ? <Text style={styles.textoError}>{error}</Text> : null}
+      
       <Pressable 
         style={[styles.boton, enviando && styles.botonDeshabilitado]} 
         onPress={handleEnviar}
@@ -61,6 +72,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlignVertical: 'top',
   },
+  inputError: {
+    borderColor: 'red',
+    backgroundColor: '#FFF0F0',
+  },
   boton: {
     backgroundColor: '#FF9F00',
     padding: 12,
@@ -73,5 +88,12 @@ const styles = StyleSheet.create({
   textoBoton: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  textoError: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: -8,
+    marginBottom: 8,
+    marginLeft: 5,
   },
 });
