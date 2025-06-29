@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, Pressable, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { AntDesign } from '@expo/vector-icons';
-import { obtenerDatosForo, agregarComentario, darLikeHilo } from '@/src/utils/almacen';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { obtenerDatosForo, agregarComentario, darLikeHilo, darLikeComentario } from '@/src/utils/almacen';
 import { Hilo } from '@/src/types/tipos';
 import ComentarioItem from '@/src/components/ComentarioItem';
 import FormularioComentario from '@/src/components/FormularioComentario';
 import { useAuth } from '@/src/hooks/useAuth';
-
 
 export default function PantallaHilo() {
   const { id } = useLocalSearchParams();
@@ -27,13 +26,13 @@ export default function PantallaHilo() {
         setEstaCargando(false);
       }
     };
-    
+
     cargarDatosHilo();
   }, [id]);
 
   const manejarLike = async () => {
     if (!hiloActual) return;
-    
+
     try {
       const totalLikes = await darLikeHilo(hiloActual.id);
       setHiloActual({ ...hiloActual, likes: totalLikes });
@@ -44,18 +43,18 @@ export default function PantallaHilo() {
 
   const manejarNuevoComentario = async (contenido: string) => {
     if (!hiloActual || !user) return;
-    
+
     try {
-      const autorComentario = { 
-        id: user.id, 
+      const autorComentario = {
+        id: user.id,
         nombre: user.username,
       };
-      
+
       const comentarioAgregado = await agregarComentario(
-        hiloActual.id, 
+        hiloActual.id,
         { contenido, autor: autorComentario }
       );
-      
+
       setHiloActual({
         ...hiloActual,
         comentarios: [...hiloActual.comentarios, comentarioAgregado],
@@ -63,6 +62,26 @@ export default function PantallaHilo() {
     } catch (error) {
       console.error('Error al agregar comentario:', error);
       throw error;
+    }
+  };
+
+  const manejarLikeComentario = async (idComentario: string) => {
+    if (!hiloActual) return;
+
+    try {
+      const totalLikes = await darLikeComentario(hiloActual.id, idComentario);
+
+      // Actualizamos el estado local
+      setHiloActual({
+        ...hiloActual,
+        comentarios: hiloActual.comentarios.map(comentario =>
+          comentario.id === idComentario
+            ? { ...comentario, likes: totalLikes }
+            : comentario
+        ),
+      });
+    } catch (error) {
+      console.error('Error al dar like al comentario:', error);
     }
   };
 
@@ -85,17 +104,26 @@ export default function PantallaHilo() {
   return (
     <View style={estilos.contenedor}>
       <View style={estilos.seccionHilo}>
-        <Text style={estilos.titulo}>{hiloActual.titulo}</Text>
-        <Text style={estilos.autor}>Publicado por {hiloActual.autor.nombre}</Text>
-        <Text style={estilos.fecha}>
-          {new Date(hiloActual.fecha).toLocaleDateString()}
-        </Text>
-        
+        <View style={estilos.encabezadoHilo}>
+          <View style={estilos.filaIconoTitulo}>
+            <MaterialIcons name="account-circle" size={48} color="#444" style={estilos.iconoUsuario} />
+            <View style={estilos.contenedorTitulo}>
+              <Text style={estilos.titulo}>{hiloActual.titulo}</Text>
+            </View>
+          </View>
+
+
+          <Text style={estilos.autor}>Publicado por {hiloActual.autor.nombre}</Text>
+          <Text style={estilos.fecha}>
+            {new Date(hiloActual.fecha).toLocaleDateString()}
+          </Text>
+        </View>
+
         <Text style={estilos.contenido}>{hiloActual.contenido}</Text>
-        
+
         <View style={estilos.contenedorAcciones}>
-          <Pressable 
-            onPress={manejarLike} 
+          <Pressable
+            onPress={manejarLike}
             style={estilos.botonLike}
             accessibilityLabel="Dar like al hilo"
           >
@@ -104,21 +132,26 @@ export default function PantallaHilo() {
           </Pressable>
         </View>
       </View>
-      
+
       <Text style={estilos.subtitulo}>
         Comentarios ({hiloActual.comentarios.length})
       </Text>
-      
+
       <FlatList
         data={hiloActual.comentarios}
         keyExtractor={(comentario) => comentario.id}
-        renderItem={({ item }) => <ComentarioItem comentario={item} />}
+        renderItem={({ item }) => (
+          <ComentarioItem
+            comentario={item}
+            onLikePress={() => manejarLikeComentario(item.id)}
+          />
+        )}
         ItemSeparatorComponent={() => <View style={estilos.separador} />}
         ListEmptyComponent={
           <Text style={estilos.sinComentarios}>Sé el primero en comentar</Text>
         }
       />
-      
+
       <FormularioComentario onSubmit={manejarNuevoComentario} />
     </View>
   );
@@ -141,6 +174,20 @@ const estilos = StyleSheet.create({
     paddingBottom: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#eaeaea',
+  },
+  encabezadoHilo: {
+    marginBottom: 15,
+  },
+  iconoUsuario: {
+    marginRight: 10,
+  },
+  filaIconoTitulo: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 5,
+  },
+  textoEncabezado: {
+    flex: 1,
   },
   titulo: {
     fontSize: 20,
@@ -169,8 +216,8 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
   },
   botonLike: {
-    flexDirection: 'row',  
-    alignItems: 'center',  
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 8,
     borderRadius: 5,
     backgroundColor: '#f5f5f5',
@@ -195,5 +242,8 @@ const estilos = StyleSheet.create({
     color: '#999',
     marginTop: 20,
     fontStyle: 'italic',
+  },
+  contenedorTitulo: {
+  flex: 1,
   },
 });

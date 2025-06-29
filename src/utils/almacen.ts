@@ -108,3 +108,34 @@ export const darLikeHilo = async (idHilo: string): Promise<number> => {
     throw error;
   }
 };
+
+export const darLikeComentario = async (idHilo: string, idComentario: string): Promise<number> => {
+  try {
+    const estadoActualForo = await obtenerDatosForo();
+    
+    // Buscamos el hilo específico
+    const hilo = estadoActualForo.hilos.find(hilo => hilo.id === idHilo);
+    
+    if (!hilo) {
+      throw new Error('Hilo no encontrado');
+    }
+    
+    // Buscamos el comentario específico
+    const comentario = hilo.comentarios.find(c => c.id === idComentario);
+    
+    if (!comentario) {
+      throw new Error('Comentario no encontrado');
+    }
+    
+    // Incrementamos los likes
+    comentario.likes += 1;
+    
+    // Guardamos el estado actualizado
+    await AsyncStorage.setItem(CLAVE_ALMACENAMIENTO_FORO, JSON.stringify(estadoActualForo));
+    
+    return comentario.likes;
+  } catch (error) {
+    console.error('Error al dar like al comentario:', error);
+    throw error;
+  }
+};

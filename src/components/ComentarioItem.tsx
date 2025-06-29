@@ -1,12 +1,13 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { Comentario } from '@/src/types/tipos';
 
 interface ComentarioItemProps {
   comentario: Comentario;
+  onLikePress?: () => void;
 }
 
-export default function ComentarioItem({ comentario }: ComentarioItemProps) {
+export default function ComentarioItem({ comentario, onLikePress }: ComentarioItemProps) {
   return (
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>
@@ -18,8 +19,10 @@ export default function ComentarioItem({ comentario }: ComentarioItemProps) {
       </View>
       <Text style={styles.contenido}>{comentario.contenido}</Text>
       <View style={styles.acciones}>
-        <AntDesign name="like1" size={14} color="#666" />
-        <Text style={styles.likes}> {comentario.likes}</Text>
+        <Pressable onPress={onLikePress} style={styles.botonLike}>
+          <AntDesign name="like1" size={14} color="#666" />
+          <Text style={styles.likes}> {comentario.likes}</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -56,6 +59,10 @@ const styles = StyleSheet.create({
   acciones: {
     flexDirection: 'row',
     marginTop: 10,
+  },
+  botonLike: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   likes: {
     color: '#666',
