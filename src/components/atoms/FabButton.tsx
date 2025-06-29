@@ -29,7 +29,7 @@ const FabButton: React.FC<FabButtonProps> = ({
       onPress={onPress}
       activeOpacity={0.8}
     >
-      <MaterialIcons name={iconName} size={size * 0.57} color={iconColor} />
+      <MaterialIcons name={iconName} size={size * 0.5} color={iconColor} />
     </TouchableOpacity>
   );
 };
