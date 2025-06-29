@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { View, TextInput, Pressable, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, TextInput, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { router } from 'expo-router';
 import { guardarHilo } from '@/src/utils/almacen';
 import { useAuth } from '@/src/hooks/useAuth';
 import { useForo } from '@/src/contexts/ForoContext';
+import MainButtonLong from '@/src/components/MainButtonLong'; 
 
 export default function CrearHiloScreen() {
   const [titulo, setTitulo] = useState('');
@@ -76,15 +77,12 @@ export default function CrearHiloScreen() {
       />
       {errores.contenido ? <Text style={styles.textoError}>{errores.contenido}</Text> : null}
 
-      <Pressable
-        style={[styles.boton, enviando && styles.botonDeshabilitado]}
+      <MainButtonLong
+        title="Publicar"
         onPress={handleEnviar}
+        loading={enviando}
         disabled={enviando}
-      >
-        <Text style={styles.textoBoton}>
-          {enviando ? 'Publicando...' : 'Publicar'}
-        </Text>
-      </Pressable>
+      />
     </ScrollView>
   );
 }
@@ -109,20 +107,6 @@ const styles = StyleSheet.create({
   areaTexto: {
     minHeight: 150,
     textAlignVertical: 'top',
-  },
-  boton: {
-    backgroundColor: '#FF9F00',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  botonDeshabilitado: {
-    opacity: 0.5,
-  },
-  textoBoton: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
   inputError: {
     borderColor: 'red',

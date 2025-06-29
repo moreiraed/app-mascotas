@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, TextInput, Pressable, Text, StyleSheet, Alert } from 'react-native';
+import { View, TextInput, Text, StyleSheet, Alert } from 'react-native';
+import MainButtonLong from '@/src/components/MainButtonLong';
 
 interface FormularioComentarioProps {
   onSubmit: (contenido: string) => Promise<void>;
@@ -43,15 +44,12 @@ export default function FormularioComentario({ onSubmit }: FormularioComentarioP
       />
       {error ? <Text style={styles.textoError}>{error}</Text> : null}
       
-      <Pressable 
-        style={[styles.boton, enviando && styles.botonDeshabilitado]} 
+      <MainButtonLong
+        title="Enviar"
         onPress={handleEnviar}
+        loading={enviando}
         disabled={enviando}
-      >
-        <Text style={styles.textoBoton}>
-          {enviando ? 'Enviando...' : 'Enviar'}
-        </Text>
-      </Pressable>
+      />
     </View>
   );
 }
@@ -75,19 +73,6 @@ const styles = StyleSheet.create({
   inputError: {
     borderColor: 'red',
     backgroundColor: '#FFF0F0',
-  },
-  boton: {
-    backgroundColor: '#FF9F00',
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  botonDeshabilitado: {
-    opacity: 0.5,
-  },
-  textoBoton: {
-    color: 'white',
-    fontWeight: 'bold',
   },
   textoError: {
     color: 'red',
