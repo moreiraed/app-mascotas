@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingBottom: 40,
+    paddingTop: 20,
   },
   updateText: {
     color: '#666',

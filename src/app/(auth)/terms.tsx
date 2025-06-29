@@ -10,10 +10,8 @@ const TermsScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Stack.Screen options={{ title: 'Términos y Condiciones' }} />
       
       <View style={styles.content}>
-        <Text style={fontStyles.titulo}>Términos y Condiciones</Text>
         <Text style={styles.updateText}>Última actualización: 28/06/2025</Text>
 
         <Text style={styles.paragraph}>
