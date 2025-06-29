@@ -1,13 +1,43 @@
 import { View, FlatList, Pressable, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HiloItem from '@/src/components/HiloItem';
 import { useForo } from '@/src/contexts/ForoContext';
+import { useNavigation } from 'expo-router';
+import { Hilo } from '@/src/types/tipos';
+import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 
 export default function ForoScreen() {
   const router = useRouter();
+  const navigation = useNavigation();
   const { hilos, estaCargando, actualizarHilos } = useForo();
   const [refreshing, setRefreshing] = useState(false);
+  const [hilosFiltrados, setHilosFiltrados] = useState<Hilo[]>([]);
+  const [terminoBusqueda, setTerminoBusqueda] = useState('');
+
+  useEffect(() => {
+    if (terminoBusqueda) {
+      const filtrados = hilos.filter(hilo => 
+        hilo.titulo.toLowerCase().includes(terminoBusqueda.toLowerCase()) ||
+        hilo.contenido.toLowerCase().includes(terminoBusqueda.toLowerCase()) ||
+        hilo.autor.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase())
+      );
+      setHilosFiltrados(filtrados);
+    } else {
+      setHilosFiltrados(hilos);
+    }
+  }, [terminoBusqueda, hilos]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerSearchBarOptions: {
+        placeholder: 'Buscar hilos...',
+        onChangeText: (event: NativeSyntheticEvent<TextInputChangeEventData>) => 
+          setTerminoBusqueda(event.nativeEvent.text),
+        onCancelButtonPress: () => setTerminoBusqueda(''),
+      },
+    });
+  }, [navigation]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -30,12 +60,16 @@ export default function ForoScreen() {
   return (
     <View style={styles.contenedor}>
       <FlatList
-        data={hilos}
+        data={hilosFiltrados}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <HiloItem hilo={item} />}
         ListEmptyComponent={
           <View style={styles.centrado}>
-            <Text>No hay hilos aún. ¡Sé el primero en crear uno!</Text>
+            <Text>
+              {terminoBusqueda 
+                ? 'No se encontraron hilos que coincidan con tu búsqueda' 
+                : 'No hay hilos aún. ¡Sé el primero en crear uno!'}
+            </Text>
           </View>
         }
         refreshing={refreshing}

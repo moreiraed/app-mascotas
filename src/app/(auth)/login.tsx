@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router'; 
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../../styles/loginStyles';
+import styles from '@/src/styles/loginStyles';
 import MainButtonLong from '@/src/components/MainButtonLong';
 import MainFacebokButton from '@/src/components/MainFacebokButton';
 import MainGoogleButton from '@/src/components/MainGoogleButton';
@@ -130,7 +130,10 @@ export default function LoginScreen() {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.forgotPassword}>
+        <TouchableOpacity
+          style={styles.forgotPassword}
+          onPress={() => router.push('/(auth)/ForgotPassword')}
+        >
           <Text style={styles.forgotText}>¿Olvidó su contraseña?</Text>
         </TouchableOpacity>
         

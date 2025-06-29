@@ -15,6 +15,8 @@ type AuthContextType = {
   signOut: () => Promise<void>;
   register: (userData: Omit<User, 'id'>) => Promise<{ success: boolean; message?: string }>;
   currentUserId: string | null;
+  requestPasswordReset: (email: string) => Promise<{ success: boolean; message?: string }>;
+  resetPassword: (email: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -24,6 +26,8 @@ export const AuthContext = createContext<AuthContextType>({
   signOut: async () => {},
   register: async () => ({ success: false, message: 'Sistema no inicializado' }),
   currentUserId: null,
+  requestPasswordReset: async () => ({ success: false, message: 'Sistema no inicializado' }),
+  resetPassword: async () => ({ success: false, message: 'Sistema no inicializado' }),
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -116,9 +120,63 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Función para solicitar el restablecimiento de contraseña
+  const requestPasswordReset = async (email: string) => {
+    try {
+      const storedUsers = await AsyncStorage.getItem('users');
+      const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
+      const userExists = users.some(u => u.email === email);
+
+      if (!userExists) {
+        return { success: false, message: 'No existe una cuenta con este email' };
+      }
+
+      // Si el usuario existe, almacenar el email en AsyncStorage
+      // para usarlo en el proceso de restablecimiento
+      await AsyncStorage.setItem('resetPasswordEmail', email);
+
+      return { success: true, message: 'Hemos encontrado tu email' };
+    } catch (error) {
+      console.error('Password reset request error:', error);
+      return { success: false, message: 'Error al solicitar recuperación' };
+    }
+  };
+
+  // Función para actualizar la contraseña del usuario
+  const resetPassword = async (email: string, newPassword: string) => {
+    try {
+      const storedUsers = await AsyncStorage.getItem('users');
+      const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
+      const userIndex = users.findIndex(u => u.email === email);
+
+      if (userIndex === -1) {
+        return { success: false, message: 'Usuario no encontrado' };
+      }
+
+      users[userIndex].password = newPassword;
+
+      await AsyncStorage.setItem('users', JSON.stringify(users));
+      await AsyncStorage.removeItem('resetPasswordEmail');
+
+      return { success: true, message: 'Contraseña actualizada correctamente' };
+    } catch (error) {
+      console.error('Password reset error:', error);
+      return { success: false, message: 'Error al actualizar contraseña' };
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, signIn, signOut, register, currentUserId: user?.id || null }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  <AuthContext.Provider value={{ 
+    user, 
+    isLoading, 
+    signIn, 
+    signOut, 
+    register, 
+    currentUserId: user?.id || null,
+    requestPasswordReset,
+    resetPassword
+  }}>
+    {children}
+  </AuthContext.Provider>
+);
 };
