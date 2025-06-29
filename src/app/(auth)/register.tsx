@@ -35,7 +35,7 @@ export default function RegisterScreen() {
 
   // Muestra los términos y condiciones (implemetar logica)
   const showTerms = () => {
-    console.log("Mostrar términos y condiciones");
+    router.push('/(auth)/terms');
   };
 
   // Funcion que alerta indicando que la funcionalidad está en desarrollo
