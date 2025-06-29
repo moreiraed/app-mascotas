@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 interface FabButtonProps {
   onPress: () => void;
-  iconName: string;
+  iconName: keyof typeof MaterialIcons.glyphMap;
   backgroundColor?: string;
   iconColor?: string;
   style?: ViewStyle;
