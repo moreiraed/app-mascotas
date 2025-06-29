@@ -173,7 +173,18 @@ export default function PerfilMascota() {
                 perfilMascotaStyles.libretaButton,
                 isCalendarExpanded && { marginTop: 20 }
               ]}
-              onPress={() => router.push('/(tabs)/perfil/libretaSanitaria')}
+              onPress={() => router.push({
+                pathname: '/(tabs)/perfil/libretaSanitaria',
+                params: {
+                  id: params.id,
+                  nombre: petData.name,
+                  imagen: params.imagen,
+                  sexo: petData.sex,
+                  color: petData.color,
+                  edad: petData.age,
+                  peso: petData.peso,
+                }
+              })}
             >
               <Text style={perfilMascotaStyles.libretaButtonText}>Libreta Sanitaria</Text>
             </TouchableOpacity>
@@ -233,7 +244,18 @@ export default function PerfilMascota() {
             </View>
             <TouchableOpacity
               style={perfilMascotaStyles.libretaButton}
-              onPress={() => router.push('/(tabs)/perfil/libretaSanitaria')}
+              onPress={() => router.push({
+                pathname: '/(tabs)/perfil/libretaSanitaria',
+                params: {
+                  id: params.id,
+                  nombre: petData.name,
+                  imagen: params.imagen,
+                  sexo: petData.sex,
+                  color: petData.color,
+                  edad: petData.age,
+                  peso: petData.peso,
+                }
+              })}
             >
               <Text style={perfilMascotaStyles.libretaButtonText}>Libreta Sanitaria</Text>
             </TouchableOpacity>
