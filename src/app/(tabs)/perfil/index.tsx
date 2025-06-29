@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, FlatList, useWindowDimensions, ImageBackground, TouchableOpacity, Modal, Pressable, TextInput } from 'react-native';
+import { View, Text, Image, FlatList, useWindowDimensions, ImageBackground, TouchableOpacity, Modal, Pressable, TextInput, Alert } from 'react-native';
 import { TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import styles from '../../../styles/perfilStyles';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -8,6 +8,8 @@ import imagePath from '@/src/constants/imagePath';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LogoutButton from '@/src/components/molecules/LogoutButton';
 import { useAuth } from '@/src/hooks/useAuth';
+import colors from '@/src/constants/colors';
+import FabButton from '@/src/components/atoms/FabButton';
 
 
 
@@ -88,12 +90,22 @@ export default function PerfilScreen() {
 
   const eliminarMascota = async (id: string) => {
     if (!currentUserId) return;
-    
-    const mascotasRaw = await AsyncStorage.getItem(`mascotas_${currentUserId}`);
-    let mascotas = mascotasRaw ? JSON.parse(mascotasRaw) : [];
-    mascotas = mascotas.filter((m: any) => m.id !== id);
-    await AsyncStorage.setItem(`mascotas_${currentUserId}`, JSON.stringify(mascotas));
-    setMascotas(mascotas);
+    Alert.alert(
+      'Eliminar mascota',
+      '¿Estás seguro de que quieres eliminar esta mascota?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Eliminar', style: 'destructive', onPress: async () => {
+            const mascotasRaw = await AsyncStorage.getItem(`mascotas_${currentUserId}`);
+            let mascotas = mascotasRaw ? JSON.parse(mascotasRaw) : [];
+            mascotas = mascotas.filter((m: any) => m.id !== id);
+            await AsyncStorage.setItem(`mascotas_${currentUserId}`, JSON.stringify(mascotas));
+            setMascotas(mascotas);
+          }
+        }
+      ]
+    );
   };
 
   const MascotasRoute = () => {
@@ -110,7 +122,7 @@ export default function PerfilScreen() {
               style={{ position: 'absolute', top: 4, right: 4, zIndex: 2 }}
               onPress={() => eliminarMascota(item.id)}
             >
-              <MaterialIcons name="delete" size={22} color="#FF5252" />
+              <MaterialIcons name="delete" size={22} color={colors.primary} />
             </TouchableOpacity>
             <TouchableOpacity
               style={{ flex: 1 }}
@@ -230,24 +242,15 @@ export default function PerfilScreen() {
         initialLayout={{ width: layout.width }}
         renderTabBar={renderTabBar}
       />
-      {/* Botón flotante para agregar mascota */}
-      <TouchableOpacity
-        style={{
-          position: 'absolute',
-          bottom: 32,
-          right: 32,
-          backgroundColor: '#FF9F00',
-          borderRadius: 32,
-          width: 56,
-          height: 56,
-          justifyContent: 'center',
-          alignItems: 'center',
-          elevation: 4,
-        }}
-        onPress={agregarMascota}
-      >
-        <MaterialIcons name="add" size={32} color="#fff" />
-      </TouchableOpacity>
+      {/* Botón flotante para agregar mascota solo en la sección 'mascotas' */}
+      {routes[index].key === 'mascotas' && (
+        <FabButton
+          onPress={agregarMascota}
+          iconName="add"
+          backgroundColor="#FF9F00"
+          iconColor="#fff"
+        />
+      )}
     </View>
   );
 }

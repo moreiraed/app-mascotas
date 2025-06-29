@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { Study, NewStudy } from '../types/libretaSanitaria.types';
 import { loadStudies, saveStudies } from '../utils/storageUtils';
+import { addEventForPet, removeEventForPet } from '../utils/calendarEventsStorage';
 
 export const useStudies = (userId: string, petId: string) => {
   const [studies, setStudies] = useState<Study[]>([]);
@@ -42,6 +43,16 @@ export const useStudies = (userId: string, petId: string) => {
       const updatedStudies = [...studies, studyToSave];
       await saveStudies(userId, petId, updatedStudies);
       setStudies(updatedStudies);
+      // Sincronizar con calendario
+      await addEventForPet(petId, {
+        id: studyToSave.id,
+        petId,
+        date: studyToSave.date.slice(0, 10),
+        type: 'estudio',
+        title: `Estudio: ${studyToSave.type}`,
+        description: '',
+        relatedId: studyToSave.id,
+      });
       Alert.alert('Éxito', 'Estudio registrado correctamente');
       return true;
     } catch (error) {
@@ -64,6 +75,8 @@ export const useStudies = (userId: string, petId: string) => {
               const updatedStudies = studies.filter(s => s.id !== studyId);
               await saveStudies(userId, petId, updatedStudies);
               setStudies(updatedStudies);
+              // Eliminar evento del calendario
+              await removeEventForPet(petId, studyId);
             } catch (error) {
               Alert.alert('Error', 'No se pudo eliminar el estudio');
             }

@@ -6,6 +6,7 @@ import { useForo } from '@/src/contexts/ForoContext';
 import { useNavigation } from 'expo-router';
 import { Hilo } from '@/src/types/tipos';
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
+import FabButton from '@/src/components/atoms/FabButton';
 
 export default function ForoScreen() {
   const router = useRouter();
@@ -76,9 +77,12 @@ export default function ForoScreen() {
         onRefresh={handleRefresh}
       />
       
-      <Pressable style={styles.botonFlotante} onPress={navigateToCreate}>
-        <Text style={styles.textoBoton}>+</Text>
-      </Pressable>
+      <FabButton
+        onPress={navigateToCreate}
+        iconName="add"
+        backgroundColor="#FF9F00"
+        iconColor="#fff"
+      />
     </View>
   );
 }

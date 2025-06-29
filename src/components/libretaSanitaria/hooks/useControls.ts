@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { Control, NewControl } from '../types/libretaSanitaria.types';
 import { loadControls, saveControls } from '../utils/storageUtils';
+import { addEventForPet, removeEventForPet } from '../utils/calendarEventsStorage';
 
 export const useControls = (userId: string, petId: string) => {
   const [controls, setControls] = useState<Control[]>([]);
@@ -50,6 +51,16 @@ export const useControls = (userId: string, petId: string) => {
       const updatedControls = [...controls, controlToSave];
       await saveControls(userId, petId, updatedControls);
       setControls(updatedControls);
+      // Sincronizar con calendario
+      await addEventForPet(petId, {
+        id: controlToSave.id,
+        petId,
+        date: controlToSave.date.slice(0, 10),
+        type: 'control',
+        title: `Control: ${controlToSave.type}`,
+        description: `Peso: ${controlToSave.weight}\nDiagnóstico: ${controlToSave.diagnosis}\nTratamiento: ${controlToSave.treatment}`,
+        relatedId: controlToSave.id,
+      });
       Alert.alert('Éxito', 'Control registrado correctamente');
       return true;
     } catch (error) {
@@ -72,6 +83,8 @@ export const useControls = (userId: string, petId: string) => {
               const updatedControls = controls.filter(c => c.id !== controlId);
               await saveControls(userId, petId, updatedControls);
               setControls(updatedControls);
+              // Eliminar evento del calendario
+              await removeEventForPet(petId, controlId);
             } catch (error) {
               Alert.alert('Error', 'No se pudo eliminar el control');
             }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { Vaccine, NewVaccine } from '../types/libretaSanitaria.types';
 import { loadVaccines, saveVaccines } from '../utils/storageUtils';
+import { addEventForPet, removeEventForPet } from '../utils/calendarEventsStorage';
 
 export const useVaccines = (userId: string, petId: string) => {
   const [vaccines, setVaccines] = useState<Vaccine[]>([]);
@@ -42,6 +43,16 @@ export const useVaccines = (userId: string, petId: string) => {
       const updatedVaccines = [...vaccines, vaccineToSave];
       await saveVaccines(userId, petId, updatedVaccines);
       setVaccines(updatedVaccines);
+      // Sincronizar con calendario
+      await addEventForPet(petId, {
+        id: vaccineToSave.id,
+        petId,
+        date: vaccineToSave.date.slice(0, 10),
+        type: 'vacuna',
+        title: `Vacuna: ${vaccineToSave.type}`,
+        description: '',
+        relatedId: vaccineToSave.id,
+      });
       Alert.alert('Éxito', 'Vacuna registrada correctamente');
       return true;
     } catch (error) {
@@ -64,6 +75,8 @@ export const useVaccines = (userId: string, petId: string) => {
               const updatedVaccines = vaccines.filter(v => v.id !== vaccineId);
               await saveVaccines(userId, petId, updatedVaccines);
               setVaccines(updatedVaccines);
+              // Eliminar evento del calendario
+              await removeEventForPet(petId, vaccineId);
             } catch (error) {
               Alert.alert('Error', 'No se pudo eliminar la vacuna');
             }

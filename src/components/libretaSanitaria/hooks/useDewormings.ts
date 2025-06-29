@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { Deworming, NewDeworming } from '../types/libretaSanitaria.types';
 import { loadDewormings, saveDewormings } from '../utils/storageUtils';
+import { addEventForPet, removeEventForPet } from '../utils/calendarEventsStorage';
 
 export const useDewormings = (userId: string, petId: string) => {
   const [dewormings, setDewormings] = useState<Deworming[]>([]);
@@ -42,6 +43,16 @@ export const useDewormings = (userId: string, petId: string) => {
       const updatedDewormings = [...dewormings, dewormingToSave];
       await saveDewormings(userId, petId, updatedDewormings);
       setDewormings(updatedDewormings);
+      // Sincronizar con calendario
+      await addEventForPet(petId, {
+        id: dewormingToSave.id,
+        petId,
+        date: dewormingToSave.date.slice(0, 10),
+        type: 'desparasitacion',
+        title: `Desparasitación: ${dewormingToSave.type}`,
+        description: '',
+        relatedId: dewormingToSave.id,
+      });
       Alert.alert('Éxito', 'Desparasitación registrada correctamente');
       return true;
     } catch (error) {
@@ -64,6 +75,8 @@ export const useDewormings = (userId: string, petId: string) => {
               const updatedDewormings = dewormings.filter(d => d.id !== dewormingId);
               await saveDewormings(userId, petId, updatedDewormings);
               setDewormings(updatedDewormings);
+              // Eliminar evento del calendario
+              await removeEventForPet(petId, dewormingId);
             } catch (error) {
               Alert.alert('Error', 'No se pudo eliminar la desparasitación');
             }
