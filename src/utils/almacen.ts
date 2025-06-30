@@ -190,3 +190,14 @@ export const responderComentario = async (
     throw error;
   }
 };
+
+export const eliminarHilo = async (idHilo: string): Promise<void> => {
+  try {
+    const estadoActualForo = await obtenerDatosForo();
+    estadoActualForo.hilos = estadoActualForo.hilos.filter(hilo => hilo.id !== idHilo);
+    await AsyncStorage.setItem(CLAVE_ALMACENAMIENTO_FORO, JSON.stringify(estadoActualForo));
+  } catch (error) {
+    console.error('Error al eliminar hilo:', error);
+    throw error;
+  }
+};

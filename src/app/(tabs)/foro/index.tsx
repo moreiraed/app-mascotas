@@ -63,12 +63,17 @@ export default function ForoScreen() {
       <FlatList
         data={hilosFiltrados}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <HiloItem hilo={item} />}
+        renderItem={({ item }) => (
+          <HiloItem
+            hilo={item}
+            onDelete={actualizarHilos}
+          />
+        )}
         ListEmptyComponent={
           <View style={styles.centrado}>
             <Text>
-              {terminoBusqueda 
-                ? 'No se encontraron hilos que coincidan con tu búsqueda' 
+              {terminoBusqueda
+                ? 'No se encontraron hilos que coincidan con tu búsqueda'
                 : 'No hay hilos aún. ¡Sé el primero en crear uno!'}
             </Text>
           </View>
@@ -76,7 +81,7 @@ export default function ForoScreen() {
         refreshing={refreshing}
         onRefresh={handleRefresh}
       />
-      
+
       <FabButton
         onPress={navigateToCreate}
         iconName="add"
