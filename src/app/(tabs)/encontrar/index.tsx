@@ -1,21 +1,38 @@
-import { FlatList, View, StyleSheet } from 'react-native';
+// app/(tabs)/encontrar/index.tsx
+import { FlatList, View, StyleSheet, Text } from 'react-native';
 import { LostPetCard } from '@/src/components/LostPetCard';
-import lostPets from '@/src/constants/lostPets';
-import ButtonComponent from '@/src/components/atoms/ButtonComponent';
+import { usePets } from '@/src/contexts/PetsContext';
+import { useEffect } from 'react';
+import { useRouter } from 'expo-router';
+import FabButton from '@/src/components/atoms/FabButton';
 
 const Encontrar = () => {
-  // Función para manejar favoritos
+  const { lostPets, loading, refreshPets } = usePets();
+  const router = useRouter();
+
+  useEffect(() => {
+    refreshPets();
+  }, []);
+
   const handleFavoritePress = (petId: string) => {
     console.log('Toggle favorite:', petId);
-    // Aquí deberías actualizar el estado de favoritos
-    // Ejemplo con un estado local o llamada a tu store/API
   };
 
-  // Función para manejar el menú de opciones
-  const handleMorePress = (petId: string) => {
-    console.log('Mostrar opciones para:', petId);
-    // Aquí podrías mostrar un ActionSheet o similar
+  const handleDetailsPress = (petId: string) => {
+    router.push(`/encontrar/${petId}`);
   };
+
+  const handleCreatePress = () => {
+    router.push('/encontrar/create');
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Cargando...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -24,14 +41,18 @@ const Encontrar = () => {
         renderItem={({ item }) => (
           <LostPetCard 
             pet={item} 
-            onDetailsPress={() => console.log('Ver detalles', item.id)}
+            onDetailsPress={() => handleDetailsPress(item.id)}
             onFavoritePress={handleFavoritePress}
-            onMorePress={handleMorePress}
           />
         )}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
+      />
+      <FabButton 
+        onPress={handleCreatePress}
+        iconName="add"
+        backgroundColor="#4E9F3D"
       />
     </View>
   );
@@ -41,6 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    position: 'relative',
   },
   listContent: {
     paddingVertical: 8,
@@ -49,11 +71,6 @@ const styles = StyleSheet.create({
   separator: {
     height: 12,
   },
-  button: {
-    position: 'fixed',
-    bottom: 30,
-    right: 30,
-  }
 });
 
 export default Encontrar;
