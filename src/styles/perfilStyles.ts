@@ -1,12 +1,13 @@
 import { Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 import { StyleSheet } from 'react-native';
+import colors from '../constants/colors';
 
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7EFE9',
+    backgroundColor: colors.background,
     
   },
   header: {
@@ -19,7 +20,7 @@ export default StyleSheet.create({
     height: 100,
     borderRadius: 40,
     borderWidth: 3,
-    borderColor: '#FF9F00',
+    borderColor: colors.primary,
     marginRight: 16,
    
   },
@@ -31,7 +32,7 @@ export default StyleSheet.create({
      padding: 10,
   },
   tabBar: {
-    backgroundColor: '#FF9F00',
+    backgroundColor: colors.primary,
     marginBottom: 8,
   },
   indicator: {
@@ -45,7 +46,7 @@ export default StyleSheet.create({
   
   },
   tabLabelFocused: {
-    color: '#FF9F00',
+    color: colors.primary,
   },
   gallery: {
     paddingVertical: 8,
@@ -94,7 +95,7 @@ export default StyleSheet.create({
   },
   mascotaTextoContenedor: {
     width: '100%',
-    backgroundColor: '#FF9F00',
+    backgroundColor: colors.primary,
     paddingVertical: 8,
     alignItems: 'center',
     borderBottomLeftRadius: 12,
@@ -117,22 +118,44 @@ export default StyleSheet.create({
   },
   menuContainer: {
     backgroundColor: '#FFF',
-    borderRadius: 8,
-    marginTop: 50,
+    borderRadius: 12,
+    marginTop: 40,
     marginRight: 20,
-    minWidth: 150,
+    minWidth: 180,
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 6,
+    paddingVertical: 0,
+    paddingHorizontal: 0,
+    alignItems: 'stretch',
   },
   menuItem: {
     paddingVertical: 14,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    borderColor: colors.primary,
+    borderWidth: 2,
+    marginVertical: 0,
+    marginBottom: 1,
+    alignSelf: 'stretch',
   },
   menuItemText: {
+    paddingRight: 50,
+    paddingLeft: 50,
     fontSize: 16,
-    color: '#333',
+    color: colors.primary,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  menuItemSeparator: {
+    height: 1,
+    backgroundColor: 'transparent',
+    width: '100%',
   },
 });

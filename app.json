@@ -9,13 +9,23 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Esta app necesita acceso a la ubicación para mostrar mascotas perdidas cerca de ti y ayudarte a encontrar tu mascota.",
+        "NSPhotoLibraryUsageDescription": "Esta app necesita acceso a la galería para que puedas subir fotos de tus mascotas."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -35,9 +45,21 @@
             }
           }
         }
-    
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Esta app necesita acceso a la ubicación para mostrar mascotas perdidas cerca de ti y ayudarte a encontrar tu mascota."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Esta app necesita acceso a la galería para que puedas subir fotos de tus mascotas.",
+          "cameraPermission": "Esta app necesita acceso a la cámara para que puedas tomar fotos de tus mascotas."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

@@ -7,14 +7,17 @@ type ButtonProps = {
   onPress?: () => void;
   loading?: boolean;
   disabled?: boolean;
+  style?: any;
+  textStyle?: any;
 };
 
 const MainButtonLong = (props: ButtonProps) => {
   return (
-    <View style={styles.containerLong}>
+    <View style={[styles.containerLong, props.style && { padding: 0 }]}>
       <TouchableOpacity 
         style={[
           styles.button, 
+          props.style,
           (props.loading || props.disabled) && styles.disabledButton
         ]} 
         onPress={props.onPress}
@@ -28,7 +31,7 @@ const MainButtonLong = (props: ButtonProps) => {
             size="small"
           />
         ) : (
-          <Text style={styles.text}>{props.title}</Text>
+          <Text style={[styles.text, props.textStyle]}>{props.title}</Text>
         )}
       </TouchableOpacity>
     </View>

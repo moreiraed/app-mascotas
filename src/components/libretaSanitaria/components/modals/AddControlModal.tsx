@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BaseModal } from './BaseModal';
+import { Calendar } from 'react-native-calendars';
+import colors from '@/src/constants/colors';
 
 interface AddControlModalProps {
   visible: boolean;
@@ -25,22 +27,39 @@ export const AddControlModal: React.FC<AddControlModalProps> = ({
   const [weight, setWeight] = useState('');
   const [diagnosis, setDiagnosis] = useState('');
   const [treatment, setTreatment] = useState('');
+  const [selectedDate, setSelectedDate] = useState(date.toISOString().slice(0, 10));
 
   const handleSave = () => {
-    if (type.trim() && weight.trim()) {
-      onSave({
-        type: type.trim(),
-        date,
-        weight: weight.trim(),
-        diagnosis: diagnosis.trim(),
-        treatment: treatment.trim(),
-      });
-      setType('');
-      setDate(new Date());
-      setWeight('');
-      setDiagnosis('');
-      setTreatment('');
+    if (!type.trim()) {
+      Alert.alert(
+        'Campo obligatorio',
+        'Por favor, ingresa el tipo de control.',
+        [{ text: 'Entendido', style: 'default' }]
+      );
+      return;
     }
+
+    if (!weight.trim()) {
+      Alert.alert(
+        'Campo obligatorio',
+        'Por favor, ingresa el peso del animal.',
+        [{ text: 'Entendido', style: 'default' }]
+      );
+      return;
+    }
+    
+    onSave({
+      type: type.trim(),
+      date,
+      weight: weight.trim(),
+      diagnosis: diagnosis.trim(),
+      treatment: treatment.trim(),
+    });
+    setType('');
+    setDate(new Date());
+    setWeight('');
+    setDiagnosis('');
+    setTreatment('');
   };
 
   const changeDate = (days: number) => {
@@ -51,6 +70,11 @@ export const AddControlModal: React.FC<AddControlModalProps> = ({
 
   const setToday = () => {
     setDate(new Date());
+  };
+
+  const handleDayPress = (day) => {
+    setDate(new Date(day.dateString));
+    setSelectedDate(day.dateString);
   };
 
   return (
@@ -72,38 +96,22 @@ export const AddControlModal: React.FC<AddControlModalProps> = ({
 
       <View style={styles.inputGroup}>
         <Text style={styles.inputLabel}>Fecha de la Consulta Veterinaria</Text>
-        <View style={styles.dateSelector}>
-          <TouchableOpacity
-            style={styles.dateButton}
-            onPress={() => changeDate(-1)}
-          >
-            <MaterialIcons name="chevron-left" size={20} color="#666" />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={styles.dateDisplay}
-            onPress={setToday}
-          >
-            <Text style={styles.dateButtonText}>
-              {date.toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </Text>
-            <MaterialIcons name="calendar-today" size={16} color="#666" />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={styles.dateButton}
-            onPress={() => changeDate(1)}
-          >
-            <MaterialIcons name="chevron-right" size={20} color="#666" />
-          </TouchableOpacity>
+        <View style={{ marginVertical: 8 }}>
+          <Calendar
+            onDayPress={handleDayPress}
+            markedDates={{
+              [selectedDate]: {
+                selected: true,
+                selectedColor: colors.primary,
+              }
+            }}
+            theme={{
+              selectedDayBackgroundColor: colors.primary,
+              todayTextColor: colors.primary,
+              arrowColor: colors.primary,
+            }}
+          />
         </View>
-        <TouchableOpacity style={styles.todayButton} onPress={setToday}>
-          <Text style={styles.todayButtonText}>Hoy</Text>
-        </TouchableOpacity>
       </View>
 
       <View style={styles.inputGroup}>

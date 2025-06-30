@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 interface BaseModalProps {
@@ -38,7 +38,12 @@ export const BaseModal: React.FC<BaseModalProps> = ({
           </View>
 
           <View style={styles.modalBody}>
-            {children}
+            <ScrollView 
+              showsVerticalScrollIndicator={true}
+              contentContainerStyle={styles.scrollContent}
+            >
+              {children}
+            </ScrollView>
           </View>
 
           {showSaveButton && onSave && (
@@ -74,8 +79,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 20,
     borderRadius: 12,
-    width: '80%',
-    maxHeight: '80%',
+    width: '90%',
+    maxHeight: '95%',
+    minHeight: '70%',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -94,7 +100,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   modalBody: {
+    flex: 1,
     padding: 16,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
   },
   modalFooter: {
     flexDirection: 'row',

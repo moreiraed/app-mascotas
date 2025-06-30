@@ -202,7 +202,7 @@ export default function PerfilScreen() {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Botón de menú en la esquina superior derecha */}
       <View style={{ position: 'absolute', top: 40, right: 20, zIndex: 10 }}>
         <TouchableOpacity onPress={openMenu} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
@@ -218,10 +218,11 @@ export default function PerfilScreen() {
       >
         <Pressable style={styles.menuOverlay} onPress={closeMenu}>
           <View style={styles.menuContainer}>
-            <TouchableOpacity onPress={handleEditarPerfil} style={styles.menuItem}>
+            <TouchableOpacity onPress={handleEditarPerfil} style={[styles.menuItem, { width: '100%', alignSelf: 'stretch' }]}>
               <Text style={styles.menuItemText}>Editar perfil</Text>
             </TouchableOpacity>
-            <LogoutButton />
+            <View style={styles.menuItemSeparator} />
+            <LogoutButton style={{ width: '100%', alignSelf: 'stretch' }} />
           </View>
         </Pressable>
       </Modal>

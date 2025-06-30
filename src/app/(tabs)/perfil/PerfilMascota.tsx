@@ -13,6 +13,7 @@ import colors from '@/src/constants/colors';
 
 export default function PerfilMascota() {
   const [selected, setSelected] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   const [isCalendarExpanded, setIsCalendarExpanded] = useState(false);
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [dayEvents, setDayEvents] = useState<CalendarEvent[]>([]);
@@ -67,15 +68,15 @@ export default function PerfilMascota() {
   );
 
   useEffect(() => {
-    setDayEvents(events.filter(e => e.date === selected));
-  }, [selected, events]);
+    setDayEvents(events.filter(e => e.date === selectedDate));
+  }, [selectedDate, events]);
 
-  // Marcar fechas con eventos
+  // Marcar fechas con eventos y la fecha seleccionada
   const markedDates = events.reduce((acc, event) => {
     acc[event.date] = {
       marked: true,
       dotColor: '#FF9F00',
-      ...(selected === event.date && {
+      ...(selectedDate === event.date && {
         selected: true,
         selectedColor: '#FF9F00',
         selectedTextColor: '#FFFFFF',
@@ -84,9 +85,18 @@ export default function PerfilMascota() {
     return acc;
   }, {} as any);
 
+  // Agregar la fecha seleccionada si no tiene eventos
+  if (selectedDate && !events.find(e => e.date === selectedDate)) {
+    markedDates[selectedDate] = {
+      selected: true,
+      selectedColor: '#FF9F00',
+      selectedTextColor: '#FFFFFF',
+    };
+  }
+
   // Función para abrir el modal y setear la fecha seleccionada
   const openAddEventModal = () => {
-    setNewEvent({ date: selected || new Date().toISOString().slice(0, 10), type: 'personalizado', title: '' });
+    setNewEvent({ date: selectedDate || new Date().toISOString().slice(0, 10), type: 'personalizado', title: '' });
     setModalVisible(true);
   };
 
@@ -120,7 +130,7 @@ export default function PerfilMascota() {
     .sort((a, b) => a.date.localeCompare(b.date))[0];
 
   return (
-    <ScrollView style={perfilMascotaStyles.container}>
+    <ScrollView style={[perfilMascotaStyles.container, { backgroundColor: colors.background }]}>
       {/* Botón de volver */}
       <View style={{ position: 'absolute', top: 40, left: 5, zIndex: 20, flexDirection: 'row', alignItems: 'center' }}>
         <TouchableOpacity onPress={() => router.replace('/(tabs)/perfil')} style={{ padding: 4, backgroundColor: '#fff', borderRadius: 20, elevation: 2 }}>
@@ -200,7 +210,7 @@ export default function PerfilMascota() {
               </TouchableOpacity>
               <Calendar
                 onDayPress={(day: DateData) => {
-                  setSelected(day.dateString);
+                  setSelectedDate(day.dateString);
                 }}
                 markedDates={markedDates}
                 theme={{
@@ -345,7 +355,7 @@ export default function PerfilMascota() {
                 <Text style={perfilMascotaStyles.calendarTitle}>Calendario de Eventos</Text>
                 <Calendar
                   onDayPress={(day: DateData) => {
-                    setSelected(day.dateString);
+                    setSelectedDate(day.dateString);
                   }}
                   markedDates={markedDates}
                   theme={{ 

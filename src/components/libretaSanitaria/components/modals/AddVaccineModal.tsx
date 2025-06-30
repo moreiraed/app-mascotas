@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BaseModal } from './BaseModal';
+import { Calendar } from 'react-native-calendars';
+import colors from '@/src/constants/colors';
 
 interface AddVaccineModalProps {
   visible: boolean;
@@ -16,13 +18,21 @@ export const AddVaccineModal: React.FC<AddVaccineModalProps> = ({
 }) => {
   const [type, setType] = useState('');
   const [date, setDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(date.toISOString().slice(0, 10));
 
   const handleSave = () => {
-    if (type.trim()) {
-      onSave(type.trim(), date);
-      setType('');
-      setDate(new Date());
+    if (!type.trim()) {
+      Alert.alert(
+        'Campo obligatorio',
+        'Por favor, ingresa el tipo de vacuna.',
+        [{ text: 'Entendido', style: 'default' }]
+      );
+      return;
     }
+    
+    onSave(type.trim(), date);
+    setType('');
+    setDate(new Date());
   };
 
   const changeDate = (days: number) => {
@@ -33,6 +43,11 @@ export const AddVaccineModal: React.FC<AddVaccineModalProps> = ({
 
   const setToday = () => {
     setDate(new Date());
+  };
+
+  const handleDayPress = (day) => {
+    setDate(new Date(day.dateString));
+    setSelectedDate(day.dateString);
   };
 
   return (
@@ -54,38 +69,22 @@ export const AddVaccineModal: React.FC<AddVaccineModalProps> = ({
 
       <View style={styles.inputGroup}>
         <Text style={styles.inputLabel}>Fecha de Aplicación</Text>
-        <View style={styles.dateSelector}>
-          <TouchableOpacity
-            style={styles.dateButton}
-            onPress={() => changeDate(-1)}
-          >
-            <MaterialIcons name="chevron-left" size={20} color="#666" />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={styles.dateDisplay}
-            onPress={setToday}
-          >
-            <Text style={styles.dateButtonText}>
-              {date.toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </Text>
-            <MaterialIcons name="calendar-today" size={16} color="#666" />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={styles.dateButton}
-            onPress={() => changeDate(1)}
-          >
-            <MaterialIcons name="chevron-right" size={20} color="#666" />
-          </TouchableOpacity>
+        <View style={{ marginVertical: 8 }}>
+          <Calendar
+            onDayPress={handleDayPress}
+            markedDates={{
+              [selectedDate]: {
+                selected: true,
+                selectedColor: colors.primary,
+              }
+            }}
+            theme={{
+              selectedDayBackgroundColor: colors.primary,
+              todayTextColor: colors.primary,
+              arrowColor: colors.primary,
+            }}
+          />
         </View>
-        <TouchableOpacity style={styles.todayButton} onPress={setToday}>
-          <Text style={styles.todayButtonText}>Hoy</Text>
-        </TouchableOpacity>
       </View>
     </BaseModal>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { formatDate } from '../utils/dateUtils';
+import colors from '@/src/constants/colors';
 
 interface DataListProps<T> {
   title: string;
@@ -42,7 +43,7 @@ export function DataList<T extends { id: string; type: string; date: string }>({
             style={styles.deleteButton}
             onPress={() => onDelete(item.id)}
           >
-            <MaterialIcons name="delete" size={20} color="#FF5252" />
+            <MaterialIcons name="delete" size={20} color={colors.primary} />
           </TouchableOpacity>
         </View>
       ))}
