@@ -3,10 +3,15 @@ import { useRouter } from 'expo-router';
 import styles from '@/src/styles/welcomeStyles'; 
 import MainButtonShort from '@/src/components/MainButtonShort';
 import fontStyles from '@/src/styles/fontStyles';
+import { useAuth } from '@/src/hooks/useAuth';
 
 export default function HomeScreen() {
   const router = useRouter();
-  const continuar = () => {
+  const { marcarWelcomeComoVisto } = useAuth();
+  
+  const continuar = async () => {
+    // Marcar que el usuario ya vio el welcome
+    await marcarWelcomeComoVisto();
     router.push('/(auth)/permisos');
   }
 

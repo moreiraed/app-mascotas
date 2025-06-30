@@ -59,7 +59,12 @@ export default function LoginScreen() {
         console.error('Error saving username:', error);
       }
       
-      router.push('/(auth)/welcome');
+      // Solo mostrar welcome si es un usuario nuevo
+      if (result.isNewUser) {
+        router.push('/(auth)/welcome');
+      } else {
+        router.push('/(tabs)/encontrar');
+      }
     } else {
       Alert.alert('Error', result.message || 'Error al iniciar sesión');
     }
