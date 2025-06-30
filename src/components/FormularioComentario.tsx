@@ -4,9 +4,10 @@ import MainButtonLong from '@/src/components/MainButtonLong';
 
 interface FormularioComentarioProps {
   onSubmit: (contenido: string) => Promise<void>;
+  onCancel?: () => void;
 }
 
-export default function FormularioComentario({ onSubmit }: FormularioComentarioProps) {
+export default function FormularioComentario({ onSubmit, onCancel }: FormularioComentarioProps) {
   const [contenido, setContenido] = useState('');
   const [error, setError] = useState('');
   const [enviando, setEnviando] = useState(false);
@@ -50,6 +51,15 @@ export default function FormularioComentario({ onSubmit }: FormularioComentarioP
         loading={enviando}
         disabled={enviando}
       />
+      
+      {onCancel && (
+        <View style={styles.botonCancelarContainer}>
+          <MainButtonLong
+            title="Cancelar"
+            onPress={onCancel}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -80,5 +90,8 @@ const styles = StyleSheet.create({
     marginTop: -8,
     marginBottom: 8,
     marginLeft: 5,
+  },
+  botonCancelarContainer: {
+    marginTop: 10,
   },
 });

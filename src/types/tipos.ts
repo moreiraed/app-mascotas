@@ -9,6 +9,8 @@ export interface Comentario {
   autor: Usuario;
   fecha: string;
   likes: number;
+  respuestas?: Comentario[]; 
+  idPadre?: string; // Para identificar comentarios padres
 }
 
 export interface Hilo {

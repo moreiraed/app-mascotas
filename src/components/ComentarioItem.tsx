@@ -5,11 +5,18 @@ import { Comentario } from '@/src/types/tipos';
 interface ComentarioItemProps {
   comentario: Comentario;
   onLikePress?: () => void;
+  onReplyPress?: () => void;
+  nivel?: number; 
 }
 
-export default function ComentarioItem({ comentario, onLikePress }: ComentarioItemProps) {
+export default function ComentarioItem({ 
+  comentario, 
+  onLikePress, 
+  onReplyPress,
+  nivel = 0 
+}: ComentarioItemProps) {
   return (
-    <View style={styles.contenedor}>
+    <View style={[styles.contenedor, { marginLeft: nivel * 15 }]}>
       <View style={styles.cabecera}>
         <View style={styles.autorContainer}>
           <MaterialIcons name="account-circle" size={16} color="#444" />
@@ -19,11 +26,26 @@ export default function ComentarioItem({ comentario, onLikePress }: ComentarioIt
       </View>
       <Text style={styles.contenido}>{comentario.contenido}</Text>
       <View style={styles.acciones}>
-        <Pressable onPress={onLikePress} style={styles.botonLike}>
+        <Pressable onPress={onLikePress} style={styles.botonAccion}>
           <AntDesign name="like1" size={14} color="#666" />
-          <Text style={styles.likes}> {comentario.likes}</Text>
+          <Text style={styles.textoAccion}> {comentario.likes}</Text>
+        </Pressable>
+        <Pressable onPress={onReplyPress} style={styles.botonAccion}>
+          <MaterialIcons name="reply" size={14} color="#666" />
+          <Text style={styles.textoAccion}> Responder</Text>
         </Pressable>
       </View>
+      
+      {/* Renderizar respuestas si existen */}
+      {comentario.respuestas?.map(respuesta => (
+        <ComentarioItem 
+          key={respuesta.id} 
+          comentario={respuesta} 
+          nivel={nivel + 1}
+          onLikePress={onLikePress}
+          onReplyPress={onReplyPress}
+        />
+      ))}
     </View>
   );
 }
@@ -33,6 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
     borderRadius: 8,
     padding: 12,
+    marginBottom: 8,
   },
   cabecera: {
     flexDirection: 'row',
@@ -55,16 +78,18 @@ const styles = StyleSheet.create({
   contenido: {
     color: '#333',
     lineHeight: 20,
+    marginBottom: 8,
   },
   acciones: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 6,
+    gap: 15,
   },
-  botonLike: {
+  botonAccion: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  likes: {
+  textoAccion: {
     color: '#666',
     fontSize: 14,
   },

@@ -139,3 +139,54 @@ export const darLikeComentario = async (idHilo: string, idComentario: string): P
     throw error;
   }
 };
+
+export const responderComentario = async (
+  idHilo: string,
+  idComentarioPadre: string,
+  datosComentario: Omit<Comentario, 'id' | 'fecha' | 'likes' | 'respuestas'>
+): Promise<Comentario> => {
+  try {
+    const estadoActualForo = await obtenerDatosForo();
+    const hiloIndex = estadoActualForo.hilos.findIndex(hilo => hilo.id === idHilo);
+    
+    if (hiloIndex === -1) throw new Error('Hilo no encontrado');
+    
+    const nuevoComentario: Comentario = {
+      ...datosComentario,
+      id: Date.now().toString(),
+      fecha: new Date().toISOString(),
+      likes: 0,
+      idPadre: idComentarioPadre
+    };
+
+    // Buscamos el comentario padre para agregar la respuesta
+    let comentarioPadreEncontrado = false;
+    
+    // Función recursiva para buscar el comentario padre
+    const buscarYAgregarRespuesta = (comentarios: Comentario[]): boolean => {
+      for (let i = 0; i < comentarios.length; i++) {
+        if (comentarios[i].id === idComentarioPadre) {
+          if (!comentarios[i].respuestas) {
+            comentarios[i].respuestas = [];
+          }
+          comentarios[i].respuestas!.push(nuevoComentario);
+          return true;
+        }
+        if (comentarios[i].respuestas && buscarYAgregarRespuesta(comentarios[i].respuestas!)) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    comentarioPadreEncontrado = buscarYAgregarRespuesta(estadoActualForo.hilos[hiloIndex].comentarios);
+
+    if (!comentarioPadreEncontrado) throw new Error('Comentario padre no encontrado');
+
+    await AsyncStorage.setItem(CLAVE_ALMACENAMIENTO_FORO, JSON.stringify(estadoActualForo));
+    return nuevoComentario;
+  } catch (error) {
+    console.error('Error al responder comentario:', error);
+    throw error;
+  }
+};

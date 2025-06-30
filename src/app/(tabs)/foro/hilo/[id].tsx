@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, Pressable, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
-import { obtenerDatosForo, agregarComentario, darLikeHilo, darLikeComentario } from '@/src/utils/almacen';
+import { obtenerDatosForo, agregarComentario, darLikeHilo, darLikeComentario, responderComentario } from '@/src/utils/almacen';
 import { Hilo } from '@/src/types/tipos';
 import ComentarioItem from '@/src/components/ComentarioItem';
 import FormularioComentario from '@/src/components/FormularioComentario';
@@ -13,6 +13,7 @@ export default function PantallaHilo() {
   const [hiloActual, setHiloActual] = useState<Hilo | null>(null);
   const [estaCargando, setEstaCargando] = useState(true);
   const { user } = useAuth();
+  const [comentarioRespondiendo, setComentarioRespondiendo] = useState<string | null>(null);
 
   useEffect(() => {
     const cargarDatosHilo = async () => {
@@ -65,6 +66,36 @@ export default function PantallaHilo() {
     }
   };
 
+  const manejarResponderComentario = async (contenido: string) => {
+    if (!hiloActual || !user || !comentarioRespondiendo) return;
+
+    try {
+      const autorComentario = {
+        id: user.id,
+        nombre: user.username,
+      };
+
+      const comentarioAgregado = await responderComentario(
+        hiloActual.id,
+        comentarioRespondiendo,
+        { contenido, autor: autorComentario }
+      );
+
+      setHiloActual({
+        ...hiloActual,
+        comentarios: hiloActual.comentarios.map(comentario =>
+          comentario.id === comentarioRespondiendo
+            ? { ...comentario, respuestas: [...(comentario.respuestas || []), comentarioAgregado] }
+            : comentario
+        ),
+      });
+      
+      setComentarioRespondiendo(null); // Limpiar el estado de respuesta
+    } catch (error) {
+      console.error('Error al responder comentario:', error);
+    }
+  };
+
   const manejarLikeComentario = async (idComentario: string) => {
     if (!hiloActual) return;
 
@@ -112,7 +143,6 @@ export default function PantallaHilo() {
             </View>
           </View>
 
-
           <Text style={estilos.autor}>Publicado por {hiloActual.autor.nombre}</Text>
           <Text style={estilos.fecha}>
             {new Date(hiloActual.fecha).toLocaleDateString()}
@@ -144,6 +174,7 @@ export default function PantallaHilo() {
           <ComentarioItem
             comentario={item}
             onLikePress={() => manejarLikeComentario(item.id)}
+            onReplyPress={() => setComentarioRespondiendo(item.id)} // Botón de respuesta
           />
         )}
         ItemSeparatorComponent={() => <View style={estilos.separador} />}
@@ -152,10 +183,21 @@ export default function PantallaHilo() {
         }
       />
 
-      <FormularioComentario onSubmit={manejarNuevoComentario} />
+      {comentarioRespondiendo ? (
+        <View style={estilos.respuestaContainer}>
+          <Text style={estilos.respuestaTexto}>Respondiendo a comentario...</Text>
+          <FormularioComentario 
+            onSubmit={manejarResponderComentario} 
+            onCancel={() => setComentarioRespondiendo(null)}
+          />
+        </View>
+      ) : (
+        <FormularioComentario onSubmit={manejarNuevoComentario} />
+      )}
     </View>
   );
 }
+
 
 const estilos = StyleSheet.create({
   contenedor: {
@@ -245,5 +287,16 @@ const estilos = StyleSheet.create({
   },
   contenedorTitulo: {
   flex: 1,
+  },
+  respuestaContainer: {
+    backgroundColor: '#f0f7ff',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 10,
+  },
+  respuestaTexto: {
+    color: '#0066cc',
+    marginBottom: 8,
+    fontStyle: 'italic',
   },
 });
