@@ -6,7 +6,7 @@ export default {
   textPrimary: '#3F414E', // Texto fuerte
   textSecondary: '#757575', // Texto claro
   success: '#4CAF50',
-  error: '#F44336',
+  error: '#FF6F61',
   white: '#FFFFFF',
   black: '#000000',
 }

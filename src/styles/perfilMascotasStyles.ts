@@ -98,7 +98,7 @@ export const perfilMascotaStyles = StyleSheet.create({
   
   infoValue: {
     fontSize: 16,
-    color: colors.textPrimary,
+    color: colors.textSecondary,
     fontWeight: 'bold',
   },
   

@@ -19,8 +19,6 @@ export default StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    borderWidth: 3,
-    borderColor: colors.primary,
   },
   username: {
     fontSize: 20,
@@ -70,8 +68,9 @@ export default StyleSheet.create({
    
   profileContainer: {
     alignItems: 'center',
-    paddingVertical: 25,
-    padding: 25,
+    paddingTop: 40,
+    paddingBottom: 20,
+    gap: 10,
   },
   mascotasLista: {
     alignItems: 'flex-start',

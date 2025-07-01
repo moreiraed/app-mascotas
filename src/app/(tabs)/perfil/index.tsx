@@ -11,6 +11,8 @@ import { useAuth } from '@/src/hooks/useAuth';
 import colors from '@/src/constants/colors';
 import FabButton from '@/src/components/atoms/FabButton';
 import { usePets } from '@/src/contexts/PetsContext';
+import MainButtonLong from '@/src/components/MainButtonLong';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 
 export default function PerfilScreen() {
@@ -27,6 +29,29 @@ export default function PerfilScreen() {
   const [mascotas, setMascotas] = useState<any[]>([]);
   const { currentUserId } = useAuth();
   const { lostPets, adoptionPets } = usePets();
+  const { signOut, isLoading } = useAuth();  
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Cerrar sesión',
+      '¿Estás seguro de que deseas salir de tu cuenta?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Cerrar sesión',
+          onPress: async () => {
+            await signOut();
+            router.replace('/(auth)/login'); // Redirige al login después de cerrar sesión
+          },
+          style: 'destructive',
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   useEffect(() => {
     const loadMascotas = async () => {
@@ -222,16 +247,23 @@ export default function PerfilScreen() {
       >
         <Pressable style={styles.menuOverlay} onPress={closeMenu}>
           <View style={styles.menuContainer}>
-            <TouchableOpacity onPress={handleEditarPerfil} style={[styles.menuItem, { width: '100%', alignSelf: 'stretch' }]}>
-              <Text style={styles.menuItemText}>Editar perfil</Text>
-            </TouchableOpacity>
-            <View style={styles.menuItemSeparator} />
-            <LogoutButton style={{ width: '100%', alignSelf: 'stretch' }} />
+            
+            <Pressable style={{flexDirection: 'row', alignItems: 'center', padding: 10,}} onPress={handleEditarPerfil}>
+              <MaterialCommunityIcons name="account-edit" size={24} color={colors.textSecondary} />
+              
+              <Text style={{marginLeft: 8, color: colors.textSecondary}}>Editar perfil</Text>
+            </Pressable>
+
+            <Pressable style={{flexDirection: 'row', alignItems: 'center', padding: 10, backgroundColor: colors.error, borderBottomLeftRadius: 8, borderBottomRightRadius: 8}} onPress={handleLogout}>
+              <MaterialIcons name="logout" size={24} color="white" />
+              <Text style={{marginLeft: 8, color: 'white'}}>Salir</Text>
+            </Pressable>
+        
           </View>
         </Pressable>
       </Modal>
      
-      <View style={styles.profileContainer}>
+      <View style={styles.profileContainer }>
         <Image
           source={profileImage ? { uri: profileImage } : imagePath.userAvatar}
           style={styles.avatar}

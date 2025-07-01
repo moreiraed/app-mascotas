@@ -42,10 +42,10 @@ export default function PerfilMascota() {
   // Datos de la mascota seleccionada o valores por defecto
   const petData = {
     name: params.nombre || 'Sin nombre',
-    sex: params.sexo || 'Desconocido',
-    color: params.color || 'Desconocido',
-    age: params.edad || 'Desconocida',
-    peso: params.peso || 'Desconocido',
+    sex: params.sexo || '---',
+    color: params.color || '---',
+    age: params.edad || '---',
+    peso: params.peso || '---',
   };
 
   const toggleCalendar = () => {

@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } fro
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
+import imagePath from '@/src/constants/imagePath';
 
 export default function EditarPerfil() {
   const [username, setUsername] = useState('');
@@ -58,7 +59,7 @@ export default function EditarPerfil() {
     <View style={styles.container}>
       <Text style={styles.title}>Editar perfil</Text>
       <Image
-        source={profileImage ? { uri: profileImage } : require('@/src/assets/images/icon.png')}
+        source={profileImage ? { uri: profileImage } : imagePath.userAvatar}
         style={styles.profileImage}
       />
       <TouchableOpacity style={styles.button} onPress={pickImage}>
