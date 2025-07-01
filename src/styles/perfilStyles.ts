@@ -70,10 +70,8 @@ export default StyleSheet.create({
    
   profileContainer: {
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: -20,
+    paddingVertical: 25,
     padding: 25,
-    flex: 0.2,
   },
   mascotasLista: {
     alignItems: 'flex-start',

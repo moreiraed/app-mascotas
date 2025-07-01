@@ -1,5 +1,8 @@
 export default {
     icon: require('@/src/assets/images/icon.png'),
+    petAvatar: require('@/src/assets/images/pet-avatar.png'),
+    petAvatar2: require('@/src/assets/images/pet-avatar2.png'),
+    userAvatar: require('@/src/assets/images/user-avatar.png'),
     adaptiveIcon: require('@/src/assets/images/adaptive-icon.png'),
     splashIcon: require('@/src/assets/images/splash-icon.png'),
     cat01: require('@/src/assets/images/pets/cats/cat01.jpg'),

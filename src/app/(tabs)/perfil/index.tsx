@@ -233,7 +233,7 @@ export default function PerfilScreen() {
      
       <View style={styles.profileContainer}>
         <Image
-          source={profileImage ? { uri: profileImage } : require('@/src/assets/images/icon.png')}
+          source={profileImage ? { uri: profileImage } : imagePath.userAvatar}
           style={styles.avatar}
         />
         <Text style={styles.username}>{username}</Text>

@@ -105,7 +105,7 @@ export default function EditarMascota() {
   } else if (imagen) {
     imagenSource = imagePathMap[imagen];
   } else {
-    imagenSource = imagePath.cat01;
+    imagenSource = imagePath.petAvatar;
   }
 
   return (
