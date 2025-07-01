@@ -18,18 +18,15 @@ export default StyleSheet.create({
   avatar: {
     width: 100,
     height: 100,
-    borderRadius: 40,
+    borderRadius: 50,
     borderWidth: 3,
     borderColor: colors.primary,
-    marginRight: 16,
-   
   },
   username: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
-    marginTop: 10,
-     padding: 10,
+    justifyContent: 'center',
   },
   tabBar: {
     backgroundColor: colors.primary,
@@ -53,10 +50,13 @@ export default StyleSheet.create({
     
   },
   galleryImage: {
-    flex: 1,
+    width: (screenWidth - 32) / 3,
     margin: 4,
-    height: 120,
+    height: ((screenWidth - 32) / 3) * 1.05,
     borderRadius: 8,
+    resizeMode: 'cover',
+    borderColor: colors.primary,
+    borderWidth: 3,
   },
   mascotasContainer: {
     flex: 1,
@@ -69,9 +69,10 @@ export default StyleSheet.create({
   },
    
   profileContainer: {
-    alignItems: 'flex-start',
-    marginTop: 20, 
-    padding: 4,
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: -20,
+    padding: 25,
     flex: 0.2,
   },
   mascotasLista: {
@@ -108,7 +109,6 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#FFF',
     fontWeight: 'bold',
-    
   },
   menuOverlay: {
     flex: 1,

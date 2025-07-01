@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
 import  {styles}  from '../../styles/permisosStyles';
-import MainButtonShort from '@/src/components/MainButtonShort';
+
 
 export default function PermisosScreen() {
   const router = useRouter();
@@ -106,7 +106,7 @@ export default function PermisosScreen() {
     if (hasLocation && hasMediaLibrary) {
       return 'Permisos concedidos';
     } else if (hasLocation || hasMediaLibrary) {
-      return 'Completar permisos';
+      return 'Conceder permisos';
     } else {
       return 'Dar permisos';
     }

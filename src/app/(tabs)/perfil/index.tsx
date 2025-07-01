@@ -10,22 +10,8 @@ import LogoutButton from '@/src/components/molecules/LogoutButton';
 import { useAuth } from '@/src/hooks/useAuth';
 import colors from '@/src/constants/colors';
 import FabButton from '@/src/components/atoms/FabButton';
+import { usePets } from '@/src/contexts/PetsContext';
 
-
-
-const publicaciones = [
-  imagePath.dog01,
-  imagePath.dog02,
-  imagePath.dog03,
-  imagePath.dog04,
-  imagePath.dog05,
-  imagePath.cat01,
-  imagePath.cat02,
-  imagePath.cat03,
-  imagePath.cat04,
-  imagePath.cat05,
-  
-];
 
 export default function PerfilScreen() {
   const layout = useWindowDimensions();
@@ -40,6 +26,7 @@ export default function PerfilScreen() {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [mascotas, setMascotas] = useState<any[]>([]);
   const { currentUserId } = useAuth();
+  const { lostPets, adoptionPets } = usePets();
 
   useEffect(() => {
     const loadMascotas = async () => {
@@ -171,17 +158,34 @@ export default function PerfilScreen() {
     );
   };
 
-  const PublicacionesRoute = () => (
-    <FlatList
-      data={publicaciones}
-      numColumns={3}
-      keyExtractor={(_, index) => index.toString()}
-      renderItem={({ item }) => (
-        <Image source={item} style={styles.galleryImage} resizeMode="cover" />
-      )}
-      contentContainerStyle={styles.gallery}
-    />
-  );
+  const PublicacionesRoute = () => {
+    // Mezclar publicaciones de perdidos y adopción
+    const publicaciones = [
+      ...lostPets.map(p => ({ ...p, tipo: 'lost' })),
+      ...adoptionPets.map(p => ({ ...p, tipo: 'adoption' })),
+    ];
+    return (
+      <FlatList
+        data={publicaciones}
+        numColumns={3}
+        keyExtractor={(item, index) => item.id || index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => {
+              if (item.tipo === 'lost') {
+                router.push({ pathname: '/encontrar/[id]', params: { id: item.id } });
+              } else {
+                router.push({ pathname: '/adoptar/[id]', params: { id: item.id } });
+              }
+            }}
+          >
+            <Image source={{ uri: item.image }} style={styles.galleryImage} resizeMode="cover" />
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={styles.gallery}
+      />
+    );
+  };
 
   const renderScene = SceneMap({
     publicaciones: PublicacionesRoute,
@@ -232,10 +236,9 @@ export default function PerfilScreen() {
           source={profileImage ? { uri: profileImage } : require('@/src/assets/images/icon.png')}
           style={styles.avatar}
         />
+        <Text style={styles.username}>{username}</Text>
       </View>
-      <View> 
-         <Text style={styles.username}>{username}</Text>
-      </View>
+     
       <TabView 
         navigationState={{ index, routes }}
         renderScene={renderScene}

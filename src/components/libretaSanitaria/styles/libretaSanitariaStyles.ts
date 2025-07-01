@@ -4,6 +4,7 @@ export const libretaSanitariaStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    marginTop: 20,
   },
   header: {
     flexDirection: 'row',
