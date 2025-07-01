@@ -1,12 +1,19 @@
-import React from "react";
-import { Stack } from "expo-router";
+import { Stack } from 'expo-router';
+import { PetsProvider } from '@/src/contexts/PetsContext';
 
-const AdoptarNavigation = () => {
+export default function Layout() {
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ title: 'Adoptar' }} />
-    </Stack>
+    <PetsProvider>
+      <Stack>
+        <Stack.Screen 
+          name="index" 
+          options={{ 
+            title: 'Mascotas en Adopción',
+          }} 
+        />
+        <Stack.Screen name="create" />
+        <Stack.Screen name="[id]" options={{title:'Detalles de publicación', headerTitleAlign:'center'}} />
+      </Stack>
+    </PetsProvider>
   );
-};
-
-export default AdoptarNavigation;
+}
