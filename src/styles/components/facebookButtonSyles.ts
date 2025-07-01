@@ -10,7 +10,7 @@ const facebook = StyleSheet.create({
   button: {
     alignItems: 'center',   // Centra los elementos verticalmente en el contenedor
     paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 30,
     backgroundColor: "#7583CA", // Color de fondo del botón
     borderRadius: 30,
     flexDirection: 'row', // Asegura que el ícono y el texto estén en fila

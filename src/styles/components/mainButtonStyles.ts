@@ -11,7 +11,7 @@ const loginStyles = StyleSheet.create({
   button: {
     alignItems: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
     backgroundColor: colors.primary,
     borderRadius: 30,
   },

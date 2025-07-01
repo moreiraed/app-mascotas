@@ -1,3 +1,4 @@
+import colors from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
 
 const google = StyleSheet.create({
@@ -17,7 +18,7 @@ const google = StyleSheet.create({
       flexDirection: 'row',
     },
     text: {
-      color: "#090A0A",
+      color: colors.textPrimary,
       fontSize: 16,
       fontWeight: 'bold',
     },

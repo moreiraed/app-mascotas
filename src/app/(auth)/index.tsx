@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import styles from '../../styles/indexStyles'
+import fontStyles from '@/src/styles/fontStyles';
 import MainButtonLong from '../../components/MainButtonLong';
 import SecondaryButtonLong from '../../components/SecondaryButton';
 
@@ -16,7 +17,7 @@ export default function AuthScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Mascotas App</Text>
+      <Text style={fontStyles.granTitulo}>MascotApp</Text>
 
       <Image
         source={require('@/src/assets/images/cat-and-dog.png')}

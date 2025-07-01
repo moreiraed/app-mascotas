@@ -17,7 +17,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bienvenido a Mi App</Text>
+      <Text style={fontStyles.titulo}>¡Bienvenido a MascotApp!</Text>
 
       <Text style={[fontStyles.textLight, styles.text]} >
         Juntos, podemos darles a los animales el hogar y el cariño que merecen.

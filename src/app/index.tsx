@@ -7,6 +7,7 @@ import {
   Nunito_400Regular,
   Nunito_600SemiBold,
   Nunito_700Bold,
+  Nunito_800ExtraBold,
 } from '@expo-google-fonts/nunito';
 import { useAuth } from '@/src/hooks/useAuth'; // Importa el hook de autenticación
 import imagePath from '../constants/imagePath';
@@ -22,6 +23,7 @@ const Index = () => {
     Nunito_400Regular,
     Nunito_600SemiBold,
     Nunito_700Bold,
+    Nunito_800ExtraBold,
   });
 
   const [minimumTimePassed, setMinimumTimePassed] = useState(false);
@@ -58,7 +60,7 @@ const Index = () => {
             resizeMode="contain"
             style={loaderStyles.icon}
           />
-          <Text style={fontStyles.titulo}>App Mascotas</Text>
+          <Text style={fontStyles.titulo}>MascotApp</Text>
         </View>
         <View style={loaderStyles.footer}>
           <ActivityIndicator size="large" color={colors.primary}/>

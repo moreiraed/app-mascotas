@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
 import  {styles}  from '../../styles/permisosStyles';
-
+import fontStyles from '@/src/styles/fontStyles';
+import MainButtonLong from '@/src/components/MainButtonLong';
 
 export default function PermisosScreen() {
   const router = useRouter();
@@ -123,7 +124,7 @@ export default function PermisosScreen() {
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.text}>Necesitamos acceder a tu ubicación y galería</Text>
+      <Text style={[styles.text, fontStyles.text]}>Para que la aplicación funcione correctamente, necesitamos acceder a tu ubicación y galería.</Text>
 
       <TouchableOpacity
         style={[styles.button, isButtonDisabled() && { opacity: 0.6 }]}

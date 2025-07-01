@@ -3,6 +3,11 @@ import colors from '../constants/colors';
 import { moderateScale } from "react-native-size-matters"
 
 const fontStyles = StyleSheet.create({
+  granTitulo:{
+    fontFamily: 'Nunito_800ExtraBold',
+    fontSize: moderateScale(32),
+    color: colors.textPrimary,
+  },
   titulo: {
     fontFamily: 'Nunito_700Bold',
     fontSize: moderateScale(26),
