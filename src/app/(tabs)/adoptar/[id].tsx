@@ -1,4 +1,3 @@
-// app/(tabs)/adoptar/[id].tsx
 import { useLocalSearchParams, router } from 'expo-router';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Linking, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
@@ -7,6 +6,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 import { Pet } from '@/src/types/publicationsTypes';
 import { useAuth } from '@/src/hooks/useAuth';
+import colors from '@/src/constants/colors';
 
 export default function AdoptionDetailsScreen() {
  const { id } = useLocalSearchParams();
@@ -83,7 +83,7 @@ export default function AdoptionDetailsScreen() {
    if (loading) {
      return (
        <View style={styles.loadingContainer}>
-         <ActivityIndicator size="large" color="#4E9F3D" />
+         <ActivityIndicator size="large" color="#FF9F00" />
        </View>
      );
    }
@@ -139,13 +139,13 @@ export default function AdoptionDetailsScreen() {
         {/* Información básica */}
         <View style={styles.infoSection}>
           <View style={styles.infoRow}>
-            <Ionicons name="paw" size={18} color="#4E9F3D" />
+            <Ionicons name="paw" size={18} color="#FF9F00" />
             <Text style={styles.infoText}>Raza: {pet.breed}</Text>
           </View>
 
           {pet.age && (
             <View style={styles.infoRow}>
-              <Ionicons name="time" size={18} color="#4E9F3D" />
+              <Ionicons name="time" size={18} color="#FF9F00" />
               <Text style={styles.infoText}>Edad: {pet.age}</Text>
             </View>
           )}
@@ -155,7 +155,7 @@ export default function AdoptionDetailsScreen() {
               <Ionicons
                 name={pet.gender === 'Macho' ? 'male' : 'female'}
                 size={18}
-                color="#4E9F3D"
+                color="#FF9F00"
               />
               <Text style={styles.infoText}>Sexo: {pet.gender}</Text>
             </View>
@@ -163,7 +163,7 @@ export default function AdoptionDetailsScreen() {
 
           {pet.color && (
             <View style={styles.infoRow}>
-              <Ionicons name="color-palette" size={18} color="#4E9F3D" />
+              <Ionicons name="color-palette" size={18} color="#FF9F00" />
               <Text style={styles.infoText}>Color: {pet.color}</Text>
             </View>
           )}
@@ -173,6 +173,34 @@ export default function AdoptionDetailsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Descripción</Text>
           <Text style={styles.sectionContent}>{pet.description}</Text>
+        </View>
+
+        {/* Nueva sección: Salud y características */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Salud y características</Text>
+
+          <View style={styles.infoRow}>
+            <Ionicons name="medical" size={18} color={colors.primary} />
+            <Text style={styles.infoText}>
+              Vacunado: {pet.vaccinated ? 'Sí' : 'No'}
+            </Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Ionicons name="medkit" size={18} color={colors.primary} />
+            <Text style={styles.infoText}>
+              Esterilizado: {pet.sterilized ? 'Sí' : 'No'}
+            </Text>
+          </View>
+
+          {pet.temperament && (
+            <View style={styles.infoRow}>
+              <Ionicons name="happy" size={18} color={colors.primary} />
+              <Text style={styles.infoText}>
+                Temperamento: {pet.temperament}
+              </Text>
+            </View>
+          )}
         </View>
 
         {/* Última vez visto (solo para perdidos) */}
@@ -342,7 +370,7 @@ const styles = StyleSheet.create({
   petTypeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#4E9F3D',
+    backgroundColor: '#FF9F00',
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 20,
@@ -388,7 +416,7 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#4E9F3D',
+    backgroundColor: '#FF9F00',
     marginTop: 8,
     marginRight: 10,
   },
@@ -422,7 +450,7 @@ const styles = StyleSheet.create({
   },
   contactPhone: {
     fontSize: 16,
-    color: '#4E9F3D',
+    color: '#FF9F00',
     marginBottom: 5,
   },
   contactEmail: {
@@ -509,5 +537,17 @@ const styles = StyleSheet.create({
     color: '#FF6B6B',
     textAlign: 'center',
     marginTop: 20,
+  },
+  healthIcon: {
+    marginRight: 10,
+  },
+  healthStatus: {
+    fontSize: 16,
+    color: '#555',
+  },
+  healthContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
   },
 });

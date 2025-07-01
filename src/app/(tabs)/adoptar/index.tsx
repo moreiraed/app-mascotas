@@ -1,6 +1,6 @@
 // app/(tabs)/adoptar/index.tsx
 import { FlatList, View, StyleSheet, Text } from 'react-native';
-import { LostPetCard } from '@/src/components/LostPetCard'; // Necesitarás crear este componente similar a LostPetCard
+import { LostPetCard } from '@/src/components/AdoptPetCard';
 import { usePets } from '@/src/contexts/PetsContext';
 import { useEffect } from 'react';
 import { useRouter } from 'expo-router';
@@ -52,7 +52,6 @@ const Adoptar = () => {
       <FabButton 
         onPress={handleCreatePress}
         iconName="add"
-        backgroundColor="#4E9F3D"
       />
     </View>
   );

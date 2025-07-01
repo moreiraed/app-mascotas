@@ -6,8 +6,10 @@ import * as ImagePicker from 'expo-image-picker';
 import { usePets } from '@/src/contexts/PetsContext';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Pet } from '@/src/types/publicationsTypes';
+import { Pet } from '@/src/types/adoptarTypes';
 import { useAuth } from '@/src/hooks/useAuth';
+import colors from '@/src/constants/colors';
+import MainButtonLong from '@/src/components/MainButtonLong';
 
 const CreateAdoptionScreen = () => {
   const { user } = useAuth();
@@ -23,7 +25,10 @@ const CreateAdoptionScreen = () => {
     color: '',
     location: '',
     description: '',
-    reward: false,
+    vaccinated: false, 
+    sterilized: false, 
+    size: 'Mediano', 
+    temperament: '', 
     specialFeatures: [''],
     contact: {
       name: '',
@@ -33,7 +38,7 @@ const CreateAdoptionScreen = () => {
     status: 'adoption',
     image: '',
     date: new Date().toLocaleDateString(),
-    ownerId: user?.id || '',
+    ownerId: user?.id || '', // Añadir ownerId
   });
 
   const handleChange = (field: keyof (Omit<Pet, 'id' | 'createdAt'> & { ownerId: string }), value: string | boolean) => {
@@ -106,161 +111,177 @@ const CreateAdoptionScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Nueva Publicación de Adopción</Text>
-      
+
       <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Información Básica</Text>
-              
-              <TextInput
-                style={styles.input}
-                placeholder="Nombre de la mascota *"
-                value={form.name}
-                onChangeText={text => handleChange('name', text)}
-              />
-              
-              <View style={styles.pickerContainer}>
-                <Picker
-                  selectedValue={form.type}
-                  onValueChange={value => handleChange('type', value)}>
-                  <Picker.Item label="Perro" value="Perro" />
-                  <Picker.Item label="Gato" value="Gato" />
-                  <Picker.Item label="Otro" value="Otro" />
-                </Picker>
-              </View>
-              
-              <TextInput
-                style={styles.input}
-                placeholder="Raza *"
-                value={form.breed}
-                onChangeText={text => handleChange('breed', text)}
-              />
-              
-              <TextInput
-                style={styles.input}
-                placeholder="Edad (opcional)"
-                value={form.age}
-                onChangeText={text => handleChange('age', text)}
-              />
-              
-              <View style={styles.pickerContainer}>
-                <Picker
-                  selectedValue={form.gender}
-                  onValueChange={value => handleChange('gender', value)}>
-                  <Picker.Item label="Macho" value="Macho" />
-                  <Picker.Item label="Hembra" value="Hembra" />
-                </Picker>
-              </View>
-              
-              <TextInput
-                style={styles.input}
-                placeholder="Color (opcional)"
-                value={form.color}
-                onChangeText={text => handleChange('color', text)}
-              />
-            </View>
-            
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Descripción</Text>
-              <TextInput
-                style={[styles.input, styles.multilineInput]}
-                placeholder="Describe a la mascota *"
-                value={form.description}
-                onChangeText={text => handleChange('description', text)}
-                multiline
-              />
-              
-              {form.status === 'lost' && (
-                <TextInput
-                  style={[styles.input, styles.multilineInput]}
-                  placeholder="Última vez visto (opcional)"
-                  value={form.lastSeenDescription}
-                  onChangeText={text => handleChange('lastSeenDescription', text)}
-                  multiline
-                />
-              )}
-            </View>
-            
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Características especiales</Text>
-              {form.specialFeatures.map((feature, index) => (
-                <View key={index} style={styles.featureRow}>
-                  <TextInput
-                    style={[styles.input, styles.featureInput]}
-                    placeholder={`Característica ${index + 1}`}
-                    value={feature}
-                    onChangeText={text => handleSpecialFeatureChange(index, text)}
-                  />
-                  {form.specialFeatures.length > 1 && (
-                    <TouchableOpacity 
-                      style={styles.removeFeatureButton}
-                      onPress={() => removeSpecialFeature(index)}>
-                      <Ionicons name="close-circle" size={24} color="#FF6B6B" />
-                    </TouchableOpacity>
-                  )}
-                </View>
-              ))}
-              <TouchableOpacity 
-                style={styles.addButton}
-                onPress={addSpecialFeature}>
-                <Text style={styles.addButtonText}>+ Añadir característica</Text>
+        <Text style={styles.sectionTitle}>Información Básica</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Nombre de la mascota *"
+          value={form.name}
+          onChangeText={text => handleChange('name', text)}
+        />
+
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={form.type}
+            onValueChange={value => handleChange('type', value)}>
+            <Picker.Item label="Perro" value="Perro" />
+            <Picker.Item label="Gato" value="Gato" />
+            <Picker.Item label="Otro" value="Otro" />
+          </Picker>
+        </View>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Raza *"
+          value={form.breed}
+          onChangeText={text => handleChange('breed', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Edad (opcional)"
+          value={form.age}
+          onChangeText={text => handleChange('age', text)}
+        />
+
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={form.gender}
+            onValueChange={value => handleChange('gender', value)}>
+            <Picker.Item label="Macho" value="Macho" />
+            <Picker.Item label="Hembra" value="Hembra" />
+          </Picker>
+        </View>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Color (opcional)"
+          value={form.color}
+          onChangeText={text => handleChange('color', text)}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Descripción</Text>
+        <TextInput
+          style={[styles.input, styles.multilineInput]}
+          placeholder="Describe a la mascota *"
+          value={form.description}
+          onChangeText={text => handleChange('description', text)}
+          multiline
+        />
+
+        {form.status === 'lost' && (
+          <TextInput
+            style={[styles.input, styles.multilineInput]}
+            placeholder="Última vez visto (opcional)"
+            value={form.lastSeenDescription}
+            onChangeText={text => handleChange('lastSeenDescription', text)}
+            multiline
+          />
+        )}
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Características especiales</Text>
+        {form.specialFeatures.map((feature, index) => (
+          <View key={index} style={styles.featureRow}>
+            <TextInput
+              style={[styles.input, styles.featureInput]}
+              placeholder={`Característica ${index + 1}`}
+              value={feature}
+              onChangeText={text => handleSpecialFeatureChange(index, text)}
+            />
+            {form.specialFeatures.length > 1 && (
+              <TouchableOpacity
+                style={styles.removeFeatureButton}
+                onPress={() => removeSpecialFeature(index)}>
+                <Ionicons name="close-circle" size={24} color="#FF6B6B" />
               </TouchableOpacity>
+            )}
+          </View>
+        ))}
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={addSpecialFeature}>
+          <Text style={styles.addButtonText}>+ Añadir característica</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Contacto</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Tu nombre *"
+          value={form.contact.name}
+          onChangeText={text => handleContactChange('name', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Teléfono *"
+          value={form.contact.phone}
+          onChangeText={text => handleContactChange('phone', text)}
+          keyboardType="phone-pad"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Email (opcional)"
+          value={form.contact.email}
+          onChangeText={text => handleContactChange('email', text)}
+          keyboardType="email-address"
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Imagen</Text>
+        <TouchableOpacity style={styles.imagePicker} onPress={pickImage}>
+          {form.image ? (
+            <Image source={{ uri: form.image }} style={styles.imagePreview} />
+          ) : (
+            <View style={styles.imagePlaceholder}>
+              <Ionicons name="camera" size={40} color="#999" />
+              <Text style={styles.imagePlaceholderText}>Seleccionar imagen</Text>
             </View>
-            
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Contacto</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Tu nombre *"
-                value={form.contact.name}
-                onChangeText={text => handleContactChange('name', text)}
-              />
-              
-              <TextInput
-                style={styles.input}
-                placeholder="Teléfono *"
-                value={form.contact.phone}
-                onChangeText={text => handleContactChange('phone', text)}
-                keyboardType="phone-pad"
-              />
-              
-              <TextInput
-                style={styles.input}
-                placeholder="Email (opcional)"
-                value={form.contact.email}
-                onChangeText={text => handleContactChange('email', text)}
-                keyboardType="email-address"
-              />
-            </View>
-            
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Imagen</Text>
-              <TouchableOpacity style={styles.imagePicker} onPress={pickImage}>
-                {form.image ? (
-                  <Image source={{ uri: form.image }} style={styles.imagePreview} />
-                ) : (
-                  <View style={styles.imagePlaceholder}>
-                    <Ionicons name="camera" size={40} color="#999" />
-                    <Text style={styles.imagePlaceholderText}>Seleccionar imagen</Text>
-                  </View>
-                )}
-              </TouchableOpacity>
-            </View>
-            
-            <View style={styles.section}>
-              <TouchableOpacity 
-                style={[styles.checkboxContainer, form.reward && styles.checkboxChecked]}
-                onPress={() => setForm(prev => ({ ...prev, reward: !prev.reward }))}>
-                <Ionicons 
-                  name={form.reward ? "checkbox" : "square-outline"} 
-                  size={24} 
-                  color={form.reward ? "#4E9F3D" : "#999"} 
-                />
-                <Text style={styles.checkboxLabel}>Ofrecer recompensa</Text>
-              </TouchableOpacity>
-            </View>
-      
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Publicar</Text>
-      </TouchableOpacity>
+          )}
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Salud</Text>
+
+        <TouchableOpacity
+          style={[styles.checkboxContainer, form.vaccinated && styles.checkboxChecked]}
+          onPress={() => setForm(prev => ({ ...prev, vaccinated: !prev.vaccinated }))}>
+          <Ionicons
+            name={form.vaccinated ? "checkbox" : "square-outline"}
+            size={24}
+            color={form.vaccinated ? "#FF9F00" : "#999"}
+          />
+          <Text style={styles.checkboxLabel}>Vacunado</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.checkboxContainer, form.sterilized && styles.checkboxChecked]}
+          onPress={() => setForm(prev => ({ ...prev, sterilized: !prev.sterilized }))}>
+          <Ionicons
+            name={form.sterilized ? "checkbox" : "square-outline"}
+            size={24}
+            color={form.sterilized ? "#FF9F00" : "#999"}
+          />
+          <Text style={styles.checkboxLabel}>Esterilizado</Text>
+        </TouchableOpacity>
+      </View>
+
+      <MainButtonLong 
+        title="Publicar" 
+        onPress={handleSubmit} 
+        style={styles.submitButton} 
+        textStyle={styles.submitButtonText} 
+      />
     </ScrollView>
   );
 };
@@ -325,7 +346,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addButtonText: {
-    color: '#4E9F3D',
+    color: colors.primary,
     fontWeight: '600',
   },
   imagePicker: {
@@ -357,18 +378,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   checkboxChecked: {
-    borderColor: '#4E9F3D',
+    borderColor: '#FF9F00',
   },
   checkboxLabel: {
     marginLeft: 10,
     fontSize: 16,
   },
   submitButton: {
-    backgroundColor: '#4E9F3D',
-    padding: 15,
-    borderRadius: 8,
+    padding: 125,
     alignItems: 'center',
-    marginTop: 20,
+    marginBottom: 40,
   },
   submitButtonText: {
     color: '#FFF',

@@ -52,7 +52,6 @@ const Encontrar = () => {
       <FabButton 
         onPress={handleCreatePress}
         iconName="add"
-        backgroundColor="#4E9F3D"
       />
     </View>
   );

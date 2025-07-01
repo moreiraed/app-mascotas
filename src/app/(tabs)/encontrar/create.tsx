@@ -8,6 +8,8 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Pet } from '@/src/types/publicationsTypes';
 import { useAuth } from '@/src/hooks/useAuth';
+import MainButtonLong from '@/src/components/MainButtonLong';
+import colors from '@/src/constants/colors';
 
 const CreatePetScreen = () => {
   const { user } = useAuth();
@@ -23,6 +25,9 @@ const CreatePetScreen = () => {
     color: '',
     location: '',
     description: '',
+    vaccinated: false, 
+    sterilized: false,  
+    temperament: '',
     lastSeenDescription: '',
     reward: false,
     specialFeatures: [''],
@@ -252,15 +257,18 @@ const CreatePetScreen = () => {
           <Ionicons 
             name={form.reward ? "checkbox" : "square-outline"} 
             size={24} 
-            color={form.reward ? "#4E9F3D" : "#999"} 
+            color={form.reward ? "#FF9F00" : "#999"} 
           />
           <Text style={styles.checkboxLabel}>Ofrecer recompensa</Text>
         </TouchableOpacity>
       </View>
       
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Publicar</Text>
-      </TouchableOpacity>
+      <MainButtonLong 
+        title="Publicar" 
+        onPress={handleSubmit} 
+        style={styles.submitButton} 
+        textStyle={styles.submitButtonText} 
+      />
     </ScrollView>
   );
 };
@@ -327,7 +335,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addButtonText: {
-    color: '#4E9F3D',
+    color: colors.primary,
     fontWeight: '600',
   },
   imagePicker: {
@@ -359,18 +367,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   checkboxChecked: {
-    borderColor: '#4E9F3D',
+    borderColor: colors.primary,
   },
   checkboxLabel: {
     marginLeft: 10,
     fontSize: 16,
   },
   submitButton: {
-    backgroundColor: '#4E9F3D',
-    padding: 15,
-    borderRadius: 8,
+    padding: 125,
     alignItems: 'center',
-    marginTop: 20,
+    marginBottom: 40,
   },
   submitButtonText: {
     color: '#FFF',

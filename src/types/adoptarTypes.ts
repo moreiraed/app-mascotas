@@ -32,5 +32,6 @@ export interface Pet {
   createdAt: number; // timestamp para ordenar
   vaccinated: boolean;
   sterilized: boolean;
+  size: 'Pequeño' | 'Mediano' | 'Grande';
   temperament?: string;
 }

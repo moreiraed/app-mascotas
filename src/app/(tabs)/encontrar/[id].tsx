@@ -8,6 +8,7 @@ import { usePets } from '../../../contexts/PetsContext';
 import { useEffect, useState } from 'react';
 import { Pet } from '@/src/types/publicationsTypes';
 import { useAuth } from '@/src/hooks/useAuth';
+import colors from '@/src/constants/colors';
 
 export default function PetDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -85,7 +86,7 @@ export default function PetDetailsScreen() {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#4E9F3D" />
+        <ActivityIndicator size="large" color= {colors.primary} />
       </View>
     );
   }
@@ -141,13 +142,13 @@ export default function PetDetailsScreen() {
         {/* Información básica */}
         <View style={styles.infoSection}>
           <View style={styles.infoRow}>
-            <Ionicons name="paw" size={18} color="#4E9F3D" />
+            <Ionicons name="paw" size={18} color={colors.primary} />
             <Text style={styles.infoText}>Raza: {pet.breed}</Text>
           </View>
 
           {pet.age && (
             <View style={styles.infoRow}>
-              <Ionicons name="time" size={18} color="#4E9F3D" />
+              <Ionicons name="time" size={18} color={colors.primary} />
               <Text style={styles.infoText}>Edad: {pet.age}</Text>
             </View>
           )}
@@ -157,7 +158,7 @@ export default function PetDetailsScreen() {
               <Ionicons
                 name={pet.gender === 'Macho' ? 'male' : 'female'}
                 size={18}
-                color="#4E9F3D"
+                color={colors.primary}
               />
               <Text style={styles.infoText}>Sexo: {pet.gender}</Text>
             </View>
@@ -165,7 +166,7 @@ export default function PetDetailsScreen() {
 
           {pet.color && (
             <View style={styles.infoRow}>
-              <Ionicons name="color-palette" size={18} color="#4E9F3D" />
+              <Ionicons name="color-palette" size={18} color={colors.primary} />
               <Text style={styles.infoText}>Color: {pet.color}</Text>
             </View>
           )}
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
   petTypeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#4E9F3D',
+    backgroundColor: colors.primary,
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 20,
@@ -390,7 +391,7 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#4E9F3D',
+    backgroundColor: colors.primary,
     marginTop: 8,
     marginRight: 10,
   },
@@ -424,7 +425,7 @@ const styles = StyleSheet.create({
   },
   contactPhone: {
     fontSize: 16,
-    color: '#4E9F3D',
+    color: colors.primary,
     marginBottom: 5,
   },
   contactEmail: {
